@@ -1,0 +1,4267 @@
+function Not(text, image, Title)
+	local cor = coroutine.wrap(function()
+		local sound = Instance.new("Sound", game.CoreGui)
+		sound.SoundId = "rbxassetid://216917652"
+		sound:Play()
+		wait(4)
+		sound:Destroy()
+	end)
+	cor()
+	game.StarterGui:SetCore("SendNotification", {
+		Title = Title;
+		Text = text; 
+		Icon = "rbxassetid://"..image;
+		Duration = 7;
+	})
+end
+local plr = game.Players.LocalPlayer
+local AncientPOS = plr.Character.HumanoidRootPart.Position
+local Player = game:GetService("Players").LocalPlayer
+local Players = game:GetService("Players")
+
+local sowd = getrawmetatable(game)
+local sucks = sowd.__namecall
+local player = game.Players.LocalPlayer
+setreadonly(sowd, false)
+sowd.__namecall = newcclosure(function(name, ...)
+	local tabs = {...}
+	if getnamecallmethod() == "FireServer"  and tostring(name) == "MainEvent" then
+		if tabs[1] == "CHECKER_1" or tabs[1] == "TeleportDetect" or tabs[1] == "OneMoreTime" then
+			--this is the anticheat, what a shame
+			return wait(9e9)
+		end
+	end
+	return sucks(name, unpack(tabs))
+end)
+setreadonly(sowd, true)
+
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Character = LocalPlayer.Character
+local Workspace = game:GetService("Workspace")
+local CoreGui = game:GetService("CoreGui")
+
+
+local LockedPlayer = nil
+for i, v in pairs(game:GetService("CoreGui"):GetChildren()) do
+
+	if v.Name == "ScreenGui" then
+		v:Destroy()
+	end
+end
+
+function GetPlayer(String)
+	local plr
+	local strl = String:lower()
+	for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+		if v.Name:lower():sub(1, #String) == String:lower() then
+			plr = v
+		end 
+	end
+	if String == "me" then
+		plr = game.Players.LocalPlayer
+	end
+	if String == "" or String == " " then
+		plr = nil
+	end
+	return plr
+end
+
+local script = Instance.new('LocalScript', AntiBan)
+
+
+local Players = game:GetService("Players") -- you should use GetService over game.Players!
+for _, player in pairs(Players:GetPlayers()) do
+	-- this code will run for all players
+	if player.UserId == 163721789 or player.UserId == 15427717 or player.UserId == 8195210 or player.UserId == 28357488 or player.UserId == 17260230 or player.UserId == 201454243 or player.UserId == 179520654 then  
+		wait(1)
+		local plr = game:GetService('Players').LocalPlayer
+		plr:Kick('KICKED TO AVOID ADMIN-BAN Thanks to kara! (Admin in server) =)')
+
+	else
+		print('Safe')
+	end
+end
+
+
+local AdminList = {
+	163721789, -- JokeTheFool  
+	15427717,  -- Sherosama      
+	8195210,   -- Benoxa
+	822999,    -- AStrongMuscle  
+	28357488,  -- UziGarage    
+	17260230,  -- NikoSenpai 
+	201454243, -- Papa_Mbaye 
+	1318185732, -- tuhklia 
+	201454243,  -- Papa_Mbaye
+
+}
+
+game.Players.PlayerAdded:Connect(function(player)
+	for i, v in pairs(AdminList) do
+		if player.UserId == v then
+			game.StarterGui:SetCore("SendNotification", {
+				Title = "Anti-Ban";
+				Text = "An admin has joined.. kicking!";
+				Duration = 20;
+			})
+			wait(2)
+			local plr = game:GetService('Players').LocalPlayer
+			plr:Kick('KICKED TO AVOID ADMIN-BAN (Admin joined) =)')
+
+		end
+	end
+end)
+
+maus = game.Players.LocalPlayer:GetMouse()
+maus.KeyDown:Connect(function(key)
+	if key == "c" then
+		if flying == false then
+			flying = true
+
+
+			local plr = game.Players.LocalPlayer
+			local mouse = plr:GetMouse()
+
+			localplayer = plr
+
+			if workspace:FindFirstChild("Core") then
+				workspace.Core:Destroy()
+			end
+
+			local Core = Instance.new("Part")
+			Core.Name = "Core"
+			Core.Size = Vector3.new(0.05, 0.05, 0.05)
+			local hum = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+			spawn(function()
+				Core.Parent = workspace
+				local Weld = Instance.new("Weld", Core)
+				Weld.Part0 = Core
+				Weld.Part1 = localplayer.Character.LowerTorso
+				Weld.C0 = CFrame.new(0, 0, 0)
+			end)
+
+			workspace:WaitForChild("Core")
+
+			local torso = workspace.Core
+
+			local speed=20
+			local keys={a=false,d=false,w=false,s=false}
+			local e1
+			local e2
+			local function start()
+				local pos = Instance.new("BodyPosition",torso)
+				local gyro = Instance.new("BodyGyro",torso)
+				pos.Name="EPIXPOS"
+				pos.maxForce = Vector3.new(math.huge, math.huge, math.huge)
+				pos.position = torso.Position
+				gyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+				gyro.cframe = torso.CFrame
+				repeat
+					wait()
+					hum.PlatformStand=true
+					local new=gyro.cframe - gyro.cframe.p + pos.position
+					if not keys.w and not keys.s and not keys.a and not keys.d then
+						speed=10
+					end
+					if keys.w then
+						new = new + workspace.CurrentCamera.CoordinateFrame.lookVector * speed
+						speed=speed+0
+					end
+					if keys.s then
+						new = new - workspace.CurrentCamera.CoordinateFrame.lookVector * speed
+						speed=speed+0
+					end
+					if keys.d then
+						new = new * CFrame.new(speed,0,0)
+						speed=speed+0
+					end
+					if keys.a then
+						new = new * CFrame.new(-speed,0,0)
+						speed=speed+0
+					end
+					if speed>20 then
+						speed=10
+					end
+					pos.position=new.p
+					if keys.w then
+						gyro.cframe = workspace.CurrentCamera.CoordinateFrame*CFrame.Angles(-math.rad(speed*0),0,0)
+					elseif keys.s then
+						gyro.cframe = workspace.CurrentCamera.CoordinateFrame*CFrame.Angles(math.rad(speed*0),0,0)
+					else
+						gyro.cframe = workspace.CurrentCamera.CoordinateFrame
+					end
+				until flying == false
+				if gyro then gyro:Destroy() end
+				if pos then pos:Destroy() end
+				flying=false
+				hum.PlatformStand=false
+				speed=20
+			end
+			e1=mouse.KeyDown:connect(function(key)
+
+				if not torso or not torso.Parent then flying=false e1:disconnect() e2:disconnect() return end
+				if key=="w" then
+					keys.w=true
+				elseif key=="s" then
+					keys.s=true
+				elseif key=="a" then
+					keys.a=true
+				elseif key=="d" then
+					keys.d=true
+
+				end
+			end)
+			e2=mouse.KeyUp:connect(function(key)
+
+				if key=="w" then
+					keys.w=false
+				elseif key=="s" then
+					keys.s=false
+				elseif key=="a" then
+					keys.a=false
+				elseif key=="d" then
+					keys.d=false
+				end
+			end)
+
+			start()
+
+		else
+			if workspace:FindFirstChild("Core") then
+				workspace.Core:Destroy()
+			end
+			flying = false
+		end
+
+
+	end
+end)
+
+
+function tp(x,y,z)
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(x,y,z))
+end
+
+Not("Welcome, "..game.Players.LocalPlayer.Name ,4833645592, "Kara")
+Not("Use command /e cmd to know the features and the commands",4833645592, "Kara")
+
+game.Players.LocalPlayer.Chatted:Connect(function(msg)
+	local plr = game.Players.LocalPlayer
+	if msg:sub(1, 6) == "/e cmds" then
+
+		print(	"/e godblock", -- its godmode by pressing [F]
+			"/e godbullet", 
+			"/e tp [PLR]",
+			"/e fly",
+			"/e head",
+			"/e headless",
+			"/e floatfist" ,
+			"/e freefists",
+			"/e bag all",
+			"/e zoom" ,
+			"/e bagall",
+			"/e male",
+			"/e unban",
+			"/e physicgun",
+			"/e nuke",
+			"/e female",
+			"/e tools",
+			"/e get tools",
+			"/e get tool",
+			"/e tool"
+		)
+
+
+		print(	"/e muscle",
+			"/e donate",
+			"/e credit",
+			"/e fling [Plr]",
+			"/e unfling",
+			"/e flashbanglock",
+			"/e flashbang lock",
+			"/e rpg [PLR]",
+			"/e grenadelock",
+			"/e grenade lock",
+			"/e nojumpcooldown",
+			"/e nojump",
+			"/e fastlegs",
+			"/e freecam",
+			"/e burger",
+			"/e burgersword",
+			"/e rainingtacos")
+
+		print("/e holycross",
+			"/e antislowdown",
+			"/e noslow",
+			"/e godmode",
+			"/e fullgodmode",
+			"/e god",
+			"/e bag [Plr]",
+			"/e spec [Plr]",
+			"/e unspec",
+			"/e backflip",
+			"/e cash [Plr]",
+			"/e airstrike",
+			"/e noclip",
+			"/e clip",
+			"/e hulk",
+			"/e killall",
+			"/e kill all")
+
+		print(	"/e sing",
+			"/e chatlogs",
+			"/e gravity",
+			"/e gl",
+			"/e ungl",
+			"/e blackhole",
+			"/e getmoney",
+			"/e equip",
+			"/e clone",
+			"/e silent",
+			"/e antigrab",
+			"/e autoeat",
+			"/e firstperson",
+			"/e crash",
+			"/e buy [ITEM]",
+			"/e tl [Plr]",
+			"/e audio [Plr]")
+
+		print(	"/e unjail",
+			"/e Unjail",
+			"/e boneless",
+			"/e spinknife",
+			"/e knifespin",
+			"/e ninjastar",
+			"/e star",
+			"/e holycross",
+			"/e hatfling",
+			"/e naked",
+			"/e fistwave",
+			"/e autostomp")
+
+		print(	                                "/e flashwave",
+			"/e reset",
+			"/e r",
+			"/e antibag",
+			"/e antiflash",
+			"/e antiflashbang",
+			"/e fistreach",
+			"/e antistomp",
+			"/e antiloseweapon")
+
+		print("/e Spongebob","/e spongebob","/e sponge bob","/e dropaccessory","/e drop accessory","/e Drop Accessory","/e DropAccessory",
+			"/e anony")
+
+		print("/e shield","/e unjail","/e Unjail","/e bigothers","/e Bigothers","/e Big others","/e Big Others","/e big all","/e vampire","/e vamp","/e horror","/e arrest [PLR]","/e drop [Amount]",
+			"/e autodrop [Amount]",
+			"/e splitgrenade",
+			"/e split",
+			"/e call [PLR]",
+			"/e maskspam",
+			"/e fistarrest [Plr]",
+			"/e godaura")
+	elseif msg:sub(1, 8) == "/e godblock" then
+		gsPlayers = game:GetService("Players")
+		gsWorkspace = game:GetService("Workspace")
+		gsLighting = game:GetService("Lighting")
+		gsReplicatedStorage = game:GetService("ReplicatedStorage")
+		gsCoreGui = game:GetService("CoreGui")
+		gsTween = game:GetService("TweenService")
+		gsHttp = game:GetService("HttpService")
+		LP = gsPlayers.LocalPlayer
+		Mouse = LP:GetMouse()
+		if LP.Character.BodyEffects:FindFirstChild("Defense") then
+			LP.Character.BodyEffects.Defense:Destroy()
+			local fucker = Instance.new("NumberValue",LP.Character.BodyEffects)
+			fucker.Name = "Defense"
+		end
+
+		LP.CharacterAdded:Connect(function()
+			repeat wait(0) until LP.Character:FindFirstChild("BodyEffects")
+			repeat wait(0) until LP.Character.BodyEffects:FindFirstChild("Defense")
+			repeat wait(0) until LP.Backpack:FindFirstChild("Combat")
+			repeat wait(0) until LP.Character.BodyEffects:FindFirstChild("Dead")
+			repeat wait(0) until LP.Character.BodyEffects:FindFirstChild("SpecialParts")
+
+			LP.Character.ChildAdded:Connect(function()
+				wait(0.3)
+				for i,v in ipairs(LP.Character:GetDescendants()) do
+					if v.Name == "Christmas_Sock" then v:Destroy()
+					end
+				end
+			end)
+
+			if LP.Character.BodyEffects:FindFirstChild("Defense") then
+				LP.Character.BodyEffects.Defense:Destroy()
+				local fucker = Instance.new("NumberValue",LP.Character.BodyEffects)
+				fucker.Name = "Defense"
+			end
+		end)
+
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara Command"; -- the title (ofc)
+			Text = "Godblock enabled Press [F]"; -- what the text says (ofc)
+			Duration = 5; -- how long the notification should in secounds
+		})
+	elseif msg == "/e godbullet"   then
+		game.Players.LocalPlayer.Character.BodyEffects.Armor:Destroy()
+
+	elseif msg:sub(1, 5) == "/e tp" or msg:sub(1, 5) == "/e to" then
+		for i,v in pairs(game.Players:GetPlayers()) do 
+			if v.Name:lower():sub(1,#msg:sub(7)) == msg:sub(7):lower() then
+				local plr = v
+				if plr.Character:FindFirstChild("Humanoid") then
+					tp(plr.Character.UpperTorso.Position.X,plr.Character.UpperTorso.Position.Y,plr.Character.UpperTorso.Position.Z)
+					break
+				end
+			end
+		end
+
+
+	elseif msg == "/e fly" then
+		Not("Press c to fly" ,4833645592, "Kara")
+
+	elseif msg:sub(1,9) == "/e unban" then
+		Not("Successfuly unbanned" ,4833645592, "Kara")
+
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+		game.Players.LocalPlayer.Character:Destroy()
+		function Unban()
+			repeat wait() until game.Players.LocalPlayer.Character:FindFirstChild("BodyEffects") and game.Players.LocalPlayer.Character.BodyEffects:FindFirstChild("SpecialParts") and not game.Players.LocalPlayer.Character:FindFirstChild("ForceField_TESTING")
+			local loaded = Instance.new("Folder")
+			loaded.Name = "FULLY_LOADED_CHAR"
+			loaded.Parent = game.Players.LocalPlayer.Character
+			game.Players.LocalPlayer.Character.BodyEffects.SpecialParts:Destroy()
+			game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.TimerJail:Destroy()
+		end
+		wait(5.3)
+		game.Players.LocalPlayer.CharacterAdded:Connect(function()Unban()end)Unban()
+	elseif msg == "/e head" then
+		Not("Head removed" ,4833645592, "Kara")
+
+		pcall(function()
+			game.Players.LocalPlayer.Character.Head.Neck:Destroy()
+			game.Players.LocalPlayer.Character.UpperTorso.NeckAttachment:Destroy()
+			game.Players.LocalPlayer.Character.Humanoid.HealthDisplayDistance = math.huge
+			game.Players.LocalPlayer.Character.Humanoid.NameDisplayDistance = math.huge
+			game.Players.LocalPlayer.Character.Head.Size = Vector3.new(0,0,0)
+			game.Players.LocalPlayer.Character.Head.Massless = true
+			game.Players.LocalPlayer.Character.Head.CanCollide = false
+
+			heazd = true
+
+			while heazd == true do 
+				pcall(function()  
+					game.Players.LocalPlayer.Character.Head.NeckRigAttachment.CFrame =  CFrame.new(0, 100000.4736328125, 0)
+					game.Players.LocalPlayer.Character.UpperTorso.NeckRigAttachment.CFrame =  CFrame.new(0, 100000.4736328125, 0)
+					game.Players.LocalPlayer.Character.Head.CFrame = CFrame.new(0, 100000.4736328125, 0)
+				end)
+				wait()
+			end
+		end)
+
+		cashdrop = false
+
+	elseif msg == "/e headless" then
+		Not("Head removed" ,4833645592, "Kara")
+
+		pcall(function()
+			game.Players.LocalPlayer.Character.Head.Neck:Destroy()
+			game.Players.LocalPlayer.Character.UpperTorso.NeckAttachment:Destroy()
+			game.Players.LocalPlayer.Character.Humanoid.HealthDisplayDistance = math.huge
+			game.Players.LocalPlayer.Character.Humanoid.NameDisplayDistance = math.huge
+			game.Players.LocalPlayer.Character.Head.Size = Vector3.new(0,0,0)
+			game.Players.LocalPlayer.Character.Head.Massless = true
+			game.Players.LocalPlayer.Character.Head.CanCollide = false
+
+			heazd = true
+
+			while heazd == true do 
+				pcall(function()  
+					game.Players.LocalPlayer.Character.Head.NeckRigAttachment.CFrame =  CFrame.new(0, 100000.4736328125, 0)
+					game.Players.LocalPlayer.Character.UpperTorso.NeckRigAttachment.CFrame =  CFrame.new(0, 100000.4736328125, 0)
+					game.Players.LocalPlayer.Character.Head.CFrame = CFrame.new(0, 100000.4736328125, 0)
+				end)
+				wait()
+			end
+		end)
+
+	elseif msg == "/e floatfist" then
+		local Players = game:GetService("Players")
+		local RunService = game:GetService("RunService")
+
+		local LocalPlayer = Players.LocalPlayer
+		local Mouse = LocalPlayer:GetMouse()
+
+		local Character = LocalPlayer.Character
+		local RightHand = Character.RightHand
+
+		local Character = LocalPlayer.Character
+		local LeftHand = Character.LeftHand
+
+		wait(0)
+
+		local Box = Instance.new("SelectionBox")
+		Box.LineThickness = 1
+		Box.Color3 = Color3.new(1, 3, 1)
+		Box.Transparency = 0.1
+		Box.Adornee = RightHand
+		Box.Parent = RightHand
+
+		local Box = Instance.new("SelectionBox")
+		Box.LineThickness = 1
+		Box.Color3 = Color3.new(1, 2, 0)
+		Box.Transparency = 0.1
+		Box.Adornee = LeftHand
+		Box.Parent = LeftHand
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "[Kara]";
+			Text = "Press V to Toggle";
+			Duration = 10;
+		})
+		-- // Variables
+		local localPlayer       = game:GetService("Players").LocalPlayer;
+		local localCharacter    = localPlayer.Character
+		local Mouse             = localPlayer:GetMouse();
+		local FistControl       = false
+		local LeftFist          = localCharacter.LeftHand;
+		local RightFist         = localCharacter.RightHand;
+
+		-- // Services
+		local uis = game:GetService("UserInputService");
+
+		-- // Removing Wrists
+		pcall(function()
+			LeftFist.LeftWrist:Destroy();
+			RightFist.RightWrist:Destroy();
+		end);
+
+		-- // Coroutine Loop + Functions
+		local loopFunction = function()
+			LeftFist.CFrame  = CFrame.new(Mouse.Hit.p);
+			RightFist.CFrame = CFrame.new(Mouse.Hit.p);
+		end;
+
+		local Loop
+
+		local Start = function()
+			Loop = game:GetService("RunService").Heartbeat:Connect(loopFunction);
+		end;
+
+		local Pause = function()
+			Loop:Disconnect()
+		end;
+
+		-- // Hotkeys
+		uis.InputBegan:connect(function(Key)
+			if (Key.KeyCode == Enum.KeyCode.V) then
+				if (FistControl == false) then
+					FistControl = true;
+					Start();
+				elseif (FistControl == true) then
+					FistControl = false;
+					Pause();
+					LeftFist.CFrame  = localPlayer.Character.LeftLowerArm.CFrame
+					RightFist.CFrame = localCharacter.RightLowerArn.CFrame
+				end;
+			end;
+		end);	
+	elseif msg == "/e freefists" then
+
+		local Players = game:GetService("Players")
+		local RunService = game:GetService("RunService")
+
+		local LocalPlayer = Players.LocalPlayer
+		local Mouse = LocalPlayer:GetMouse()
+
+		local Character = LocalPlayer.Character
+		local RightHand = Character.RightHand
+
+		local Character = LocalPlayer.Character
+		local LeftHand = Character.LeftHand
+
+		wait(0)
+
+		local Box = Instance.new("SelectionBox")
+		Box.LineThickness = 1
+		Box.Color3 = Color3.new(1, 3, 1)
+		Box.Transparency = 0.1
+		Box.Adornee = RightHand
+		Box.Parent = RightHand
+
+		local Box = Instance.new("SelectionBox")
+		Box.LineThickness = 1
+		Box.Color3 = Color3.new(1, 2, 0)
+		Box.Transparency = 0.1
+		Box.Adornee = LeftHand
+		Box.Parent = LeftHand
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "[Kara]";
+			Text = "Press V to Toggle";
+			Duration = 10;
+		})
+		-- // Variables
+		local localPlayer       = game:GetService("Players").LocalPlayer;
+		local localCharacter    = localPlayer.Character
+		local Mouse             = localPlayer:GetMouse();
+		local FistControl       = false
+		local LeftFist          = localCharacter.LeftHand;
+		local RightFist         = localCharacter.RightHand;
+
+		-- // Services
+		local uis = game:GetService("UserInputService");
+
+		-- // Removing Wrists
+		pcall(function()
+			LeftFist.LeftWrist:Destroy();
+			RightFist.RightWrist:Destroy();
+		end);
+
+		-- // Coroutine Loop + Functions
+		local loopFunction = function()
+			LeftFist.CFrame  = CFrame.new(Mouse.Hit.p);
+			RightFist.CFrame = CFrame.new(Mouse.Hit.p);
+		end;
+
+		local Loop
+
+		local Start = function()
+			Loop = game:GetService("RunService").Heartbeat:Connect(loopFunction);
+		end;
+
+		local Pause = function()
+			Loop:Disconnect()
+		end;
+
+		-- // Hotkeys
+		uis.InputBegan:connect(function(Key)
+			if (Key.KeyCode == Enum.KeyCode.V) then
+				if (FistControl == false) then
+					FistControl = true;
+					Start();
+				elseif (FistControl == true) then
+					FistControl = false;
+					Pause();
+					LeftFist.CFrame  = localPlayer.Character.LeftLowerArm.CFrame
+					RightFist.CFrame = localCharacter.RightLowerArn.CFrame
+				end;
+			end;
+		end);	
+
+	elseif msg == "/e bag all" then
+		local bag = false
+		bag = true
+		repeat
+
+			local cor = coroutine.wrap(function()
+				if not game.Players.LocalPlayer.Character:FindFirstChild("[BrownBag]") then
+					takingbag = true
+					local cor = coroutine.wrap(function()
+						game.Players.LocalPlayer.Character:MoveTo(Vector3.new(-314.580566, 51.1788902, -727.484558))
+					end)
+					cor()			
+					wait(1)
+					fireclickdetector(workspace.Ignored.Shop["[BrownBag] - $25"].ClickDetector, 4)
+					wait(0.5)
+					game.Players.LocalPlayer.Backpack["[BrownBag]"].Parent = game.Players.LocalPlayer.Character
+					takingbag = false
+				end
+			end)
+			cor()
+			if takingbag == false then
+				for i, v  in pairs(game.Players:GetPlayers()) do
+					if v.Character:FindFirstChild("Christmas_Sock") == nil and v.Character:FindFirstChildOfClass("ForceField") == nil and v.Character ~= game.Players.LocalPlayer.Character then
+						local chars = v.Character
+						if game.Players.LocalPlayer.Character:FindFirstChild("[BrownBag]") then
+							game.Players.LocalPlayer.Character["[BrownBag]"]:Activate()
+						end
+						game.Players.LocalPlayer.Character:MoveTo(v.Character.UpperTorso.Position)
+					end
+					wait(0.005)
+					bag = false
+				end
+			end
+			wait()
+		until bag == false
+		bag = false
+
+	elseif msg == "/e bagall" then
+		local bag = false
+		bag = true
+		repeat
+
+			local cor = coroutine.wrap(function()
+				if not game.Players.LocalPlayer.Character:FindFirstChild("[BrownBag]") then
+					takingbag = true
+					local cor = coroutine.wrap(function()
+						game.Players.LocalPlayer.Character:MoveTo(Vector3.new(-314.580566, 51.1788902, -727.484558))
+					end)
+					cor()			
+					wait(1)
+					fireclickdetector(workspace.Ignored.Shop["[BrownBag] - $25"].ClickDetector, 4)
+					wait(0.5)
+					game.Players.LocalPlayer.Backpack["[BrownBag]"].Parent = game.Players.LocalPlayer.Character
+					takingbag = false
+				end
+			end)
+			cor()
+			if takingbag == false then
+				for i, v  in pairs(game.Players:GetPlayers()) do
+					if v.Character:FindFirstChild("Christmas_Sock") == nil and v.Character:FindFirstChildOfClass("ForceField") == nil and v.Character ~= game.Players.LocalPlayer.Character then
+						local chars = v.Character
+						if game.Players.LocalPlayer.Character:FindFirstChild("[BrownBag]") then
+							game.Players.LocalPlayer.Character["[BrownBag]"]:Activate()
+						end
+						game.Players.LocalPlayer.Character:MoveTo(v.Character.UpperTorso.Position)
+					end
+					wait(0.005)
+					bag = false
+				end
+			end
+			wait()
+		until bag == false
+		bag = false
+
+	elseif msg == "/e male" then
+		local lol3 = game.Workspace.Ignored.Shop["[Bat] - $275"]
+		local lol2 = game.Workspace.Ignored.Shop["[StopSign] - $300"]
+		local lol = game.Workspace.Ignored.Shop["[Hamburger] - $5"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(0.20)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(1)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.20)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(1)
+		game.Players.LocalPlayer.Character:MoveTo(lol2.Head.Position)
+		wait(0.20)
+		fireclickdetector(lol2.ClickDetector,4)
+		wait(1)
+		game.Players.LocalPlayer.Character:MoveTo(lol3.Head.Position)
+		wait(0.20)
+		fireclickdetector(lol3.ClickDetector,4)
+		if lol and lol2 and lol3 then
+			wait(3)
+			game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(1.5, -2, -1)
+			game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+			game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+			game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(0, 0, 0)
+			game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(1.5, -1, -1)
+			game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+			game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+			game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(0, 0, 0)
+			game.Players.LocalPlayer.Backpack["[StopSign]"].GripPos     = Vector3.new(0, -1.5, 2 )
+			game.Players.LocalPlayer.Backpack["[StopSign]"].GripForward     = Vector3.new(-3, -3, -1)
+			game.Players.LocalPlayer.Backpack["[StopSign]"].GripRight     = Vector3.new(-0, -5, 1)
+			game.Players.LocalPlayer.Backpack["[StopSign]"].GripUp     = Vector3.new(2, 0, 75)
+			game.Players.LocalPlayer.Backpack["[Bat]"].GripPos     = Vector3.new(2, -5, -1.5)
+			game.Players.LocalPlayer.Backpack["[Bat]"].GripForward     = Vector3.new(0, 0, 0)
+			game.Players.LocalPlayer.Backpack["[Bat]"].GripRight     = Vector3.new(1, 0, -3)
+			game.Players.LocalPlayer.Backpack["[Bat]"].GripUp     = Vector3.new(0, 0, 0)
+			game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+			game.Players.LocalPlayer.Backpack["[StopSign]"].Parent = game.Players.LocalPlayer.Character
+			game.Players.LocalPlayer.Backpack["[Bat]"].Parent = game.Players.LocalPlayer.Character
+			game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		end
+	elseif msg == "/e physicgun" then
+		loadstring(game:HttpGet(("https://pastebin.com/raw/KU2T3PwE"),true))()
+	elseif msg == "/e physic gun" then
+		loadstring(game:HttpGet(("https://pastebin.com/raw/KU2T3PwE"),true))()
+	elseif msg == "/e nuke" then
+		pcall(function()
+			for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+				if v.Name == '[Grenade]' then
+					v.Parent = game.Players.LocalPlayer.Character
+				end
+			end
+		end)
+		wait(.9)
+		local targetpos = CFrame.new(108.995865, -26.7500305, -276.529877)
+		local plr = game.Players.LocalPlayer
+		local pos = plr.Character.HumanoidRootPart.Position
+		if not game.Players.LocalPlayer.Character:FindFirstChild("[Grenade]") then
+			plr.Character.HumanoidRootPart.CFrame = targetpos
+			local cd = game:GetService("Workspace").Ignored.Shop["[Grenade] - $700"]:FindFirstChild("ClickDetector")
+			wait(.9)
+			fireclickdetector(cd)
+			wait(.4)
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]").Parent = plr.Character
+			wait(.9)
+			fireclickdetector(cd)
+			wait(.4)
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]").Parent = plr.Character
+			wait(.9)
+			fireclickdetector(cd)
+			wait(.4)
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]").Parent = plr.Character
+			wait(.9)
+			fireclickdetector(cd)
+			wait(.4)
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]").Parent = plr.Character
+			wait(.9)
+			fireclickdetector(cd)
+			wait(.4)
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]").Parent = plr.Character
+			wait(.9)
+			fireclickdetector(cd)
+			wait(.4)
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]").Parent = plr.Character
+			wait(.9)
+			fireclickdetector(cd)
+			wait(.4)
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]").Parent = plr.Character
+			wait(.9)
+			fireclickdetector(cd)
+			wait(.4)
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]").Parent = plr.Character
+			wait(.9)
+			local oh1 = CFrame.new(-411.605194, 21.7499943, -332.942078)
+			local oh2 = game:GetService("Players")
+			local oh3 = oh2.LocalPlayer.Character.HumanoidRootPart
+
+
+			oh3.CFrame = oh1
+
+			-- end of script
+			local oh1 = CFrame.new(-396.677094, 51.750145, -336.327148)
+			local oh2 = game:GetService("Players")
+			local oh3 = oh2.LocalPlayer.Character.HumanoidRootPart
+
+
+			oh3.CFrame = oh1
+
+			-- end of script
+			local oh1 = CFrame.new(-408.277466, 77.8071213, -369.336456)
+			local oh2 = game:GetService("Players")
+			local oh3 = oh2.LocalPlayer.Character.HumanoidRootPart
+
+
+			oh3.CFrame = oh1
+
+			-- end of script
+			local oh1 = CFrame.new(-396.90979, 61.7791367, -381.694397)
+			local oh2 = game:GetService("Players")
+			local oh3 = oh2.LocalPlayer.Character.HumanoidRootPart
+
+
+			oh3.CFrame = oh1
+		end
+		wait(0)
+		local LocalPlayer = game:GetService("Players").LocalPlayer
+		local char = LocalPlayer.Character
+		local Ignored = game.workspace.Ignored
+		local backpack = LocalPlayer.Backpack
+		local x = 0
+		local Grenade = "[Grenade]"
+		local DroppedGrenade = "Handle"
+		for i,v in pairs(backpack:GetChildren()) do
+			if v.Name == Grenade then
+				v.Parent = char
+			end
+		end
+		for i,v in pairs(char:GetChildren()) do
+			if v.Name == Grenade then
+				v:Activate()
+				v:Activate()
+			end
+		end
+		wait (1)
+		for i,v in pairs(Ignored:GetChildren()) do
+			if v.Name == DroppedGrenade then
+				x = x + 1
+				v.Name = DroppedGrenade..x
+			end
+		end
+		wait(1)
+		x = 0
+		for i, player in pairs(game.Players:GetPlayers()) do
+			x = x + 1
+			local launch = Ignored:WaitForChild(DroppedGrenade..x)
+			if LocalPlayer.Name == player.Name then do
+					launch.Position = Vector3.new(0,1000,0)
+				end
+			else do
+					game.Players.LocalPlayer.MaximumSimulationRadius = math.pow(math.huge,math.huge)*math.huge
+					game.Players.LocalPlayer.SimulationRadius = math.pow(math.huge,math.huge)*math.huge
+					launch.Position = player.Character.HumanoidRootPart.Position
+					wait (0.02)
+				end
+
+			end
+		end
+	elseif msg == "/e female" then
+		local lol = game.Workspace.Ignored.Shop["[Hamburger] - $5"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(0.25)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.20)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(1, 1.5, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(0, 0, 90)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.25)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.25)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(2, 1.5, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(0, 0, 90)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(1, 1.5, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(0, 0, 90)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+
+	elseif msg == "/e tools" then
+		char = game:GetService('Players').LocalPlayer.Character
+		-------------------------------------
+		function GetKnife()
+			wait(.1)
+			char.HumanoidRootPart.CFrame = CFrame.new(-680.2, 19.75, -254.97)
+			char.HumanoidRootPart.CFrame = CFrame.new(-680.2, 19.75, -254.97)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-115.495, 19.756, -453.45)
+			char.HumanoidRootPart.CFrame = CFrame.new(-115.495, 19.756, -453.45)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(33, 19.75, -184.6)
+			char.HumanoidRootPart.CFrame = CFrame.new(33, 19.75, -184.6)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(243.495, 62, -450.5)
+			char.HumanoidRootPart.CFrame = CFrame.new(243.495, 62, -450.5)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-103.53, 19.75, -220.21)
+			char.HumanoidRootPart.CFrame = CFrame.new(-103.53, 19.75, -220.21)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-581.775, 19.7549, -485.23)
+			char.HumanoidRootPart.CFrame = CFrame.new(-581.775, 19.7549, -485.23)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-399.655, 19.7552, -461.55)
+			char.HumanoidRootPart.CFrame = CFrame.new(-399.655, 19.7552, -461.55)
+			wait()
+		end
+
+		wait()
+		local X = char.HumanoidRootPart.CFrame.X
+		local Y = char.HumanoidRootPart.CFrame.Y
+		local Z = char.HumanoidRootPart.CFrame.Z
+		GetKnife()
+		repeat GetKnife() until plr.Backpack:FindFirstChild('[Knife]') and plr.Backpack:FindFirstChild('[LockPicker]')
+		char.HumanoidRootPart.CFrame = CFrame.new(X,Y+5,Z)
+
+	elseif msg == "/e get tools" then
+		char = game:GetService('Players').LocalPlayer.Character
+		-------------------------------------
+		function GetKnife()
+			wait(.1)
+			char.HumanoidRootPart.CFrame = CFrame.new(-680.2, 19.75, -254.97)
+			char.HumanoidRootPart.CFrame = CFrame.new(-680.2, 19.75, -254.97)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-115.495, 19.756, -453.45)
+			char.HumanoidRootPart.CFrame = CFrame.new(-115.495, 19.756, -453.45)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(33, 19.75, -184.6)
+			char.HumanoidRootPart.CFrame = CFrame.new(33, 19.75, -184.6)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(243.495, 62, -450.5)
+			char.HumanoidRootPart.CFrame = CFrame.new(243.495, 62, -450.5)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-103.53, 19.75, -220.21)
+			char.HumanoidRootPart.CFrame = CFrame.new(-103.53, 19.75, -220.21)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-581.775, 19.7549, -485.23)
+			char.HumanoidRootPart.CFrame = CFrame.new(-581.775, 19.7549, -485.23)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-399.655, 19.7552, -461.55)
+			char.HumanoidRootPart.CFrame = CFrame.new(-399.655, 19.7552, -461.55)
+			wait()
+		end
+
+		wait()
+		local X = char.HumanoidRootPart.CFrame.X
+		local Y = char.HumanoidRootPart.CFrame.Y
+		local Z = char.HumanoidRootPart.CFrame.Z
+		GetKnife()
+		repeat GetKnife() until plr.Backpack:FindFirstChild('[Knife]') and plr.Backpack:FindFirstChild('[LockPicker]')
+		char.HumanoidRootPart.CFrame = CFrame.new(X,Y+5,Z)
+
+	elseif msg == "/e get tool" then
+		char = game:GetService('Players').LocalPlayer.Character
+		-------------------------------------
+		function GetKnife()
+			wait(.1)
+			char.HumanoidRootPart.CFrame = CFrame.new(-680.2, 19.75, -254.97)
+			char.HumanoidRootPart.CFrame = CFrame.new(-680.2, 19.75, -254.97)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-115.495, 19.756, -453.45)
+			char.HumanoidRootPart.CFrame = CFrame.new(-115.495, 19.756, -453.45)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(33, 19.75, -184.6)
+			char.HumanoidRootPart.CFrame = CFrame.new(33, 19.75, -184.6)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(243.495, 62, -450.5)
+			char.HumanoidRootPart.CFrame = CFrame.new(243.495, 62, -450.5)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-103.53, 19.75, -220.21)
+			char.HumanoidRootPart.CFrame = CFrame.new(-103.53, 19.75, -220.21)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-581.775, 19.7549, -485.23)
+			char.HumanoidRootPart.CFrame = CFrame.new(-581.775, 19.7549, -485.23)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-399.655, 19.7552, -461.55)
+			char.HumanoidRootPart.CFrame = CFrame.new(-399.655, 19.7552, -461.55)
+			wait()
+		end
+
+		wait()
+		local X = char.HumanoidRootPart.CFrame.X
+		local Y = char.HumanoidRootPart.CFrame.Y
+		local Z = char.HumanoidRootPart.CFrame.Z
+		GetKnife()
+		repeat GetKnife() until plr.Backpack:FindFirstChild('[Knife]') and plr.Backpack:FindFirstChild('[LockPicker]')
+		char.HumanoidRootPart.CFrame = CFrame.new(X,Y+5,Z)
+
+	elseif msg == "/e tool" then
+		char = game:GetService('Players').LocalPlayer.Character
+		-------------------------------------
+		function GetKnife()
+			wait(.1)
+			char.HumanoidRootPart.CFrame = CFrame.new(-680.2, 19.75, -254.97)
+			char.HumanoidRootPart.CFrame = CFrame.new(-680.2, 19.75, -254.97)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-115.495, 19.756, -453.45)
+			char.HumanoidRootPart.CFrame = CFrame.new(-115.495, 19.756, -453.45)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			char.HumanoidRootPart.CFrame = CFrame.new(-418.208, 19.25, -748.694)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(33, 19.75, -184.6)
+			char.HumanoidRootPart.CFrame = CFrame.new(33, 19.75, -184.6)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(243.495, 62, -450.5)
+			char.HumanoidRootPart.CFrame = CFrame.new(243.495, 62, -450.5)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-103.53, 19.75, -220.21)
+			char.HumanoidRootPart.CFrame = CFrame.new(-103.53, 19.75, -220.21)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-581.775, 19.7549, -485.23)
+			char.HumanoidRootPart.CFrame = CFrame.new(-581.775, 19.7549, -485.23)
+			wait()
+			char.HumanoidRootPart.CFrame = CFrame.new(-399.655, 19.7552, -461.55)
+			char.HumanoidRootPart.CFrame = CFrame.new(-399.655, 19.7552, -461.55)
+			wait()
+		end
+
+		wait()
+		local X = char.HumanoidRootPart.CFrame.X
+		local Y = char.HumanoidRootPart.CFrame.Y
+		local Z = char.HumanoidRootPart.CFrame.Z
+		GetKnife()
+		repeat GetKnife() until plr.Backpack:FindFirstChild('[Knife]') and plr.Backpack:FindFirstChild('[LockPicker]')
+		char.HumanoidRootPart.CFrame = CFrame.new(X,Y+5,Z)
+
+	elseif msg == "/e boneless" then
+		local Stuff = {"RightHand", "LeftHand","RightUpperArm","RightLowerArm","LeftUpperArm","LeftLowerArm","Head","UpperTorso"}
+
+		pcall(function()
+			for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+				for z, AdminName in ipairs(Stuff) do
+					if v.Name == AdminName then
+						if v:FindFirstChildOfClass("Motor6D") then
+							local Weld = v:FindFirstChildOfClass("Motor6D")
+							Weld:Destroy()
+						end
+					end
+				end
+			end
+		end)
+
+	elseif msg == "/e spinknife" then
+		pcall(function()
+			for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+				if v.Name == '[Knife]' then
+					v.Parent = game.Players.LocalPlayer.Character
+				end
+			end
+		end)
+		wait(.9)
+		local targetpos = CFrame.new(-278.063446, 21.75, -240.871841)
+		local plr = game.Players.LocalPlayer
+		local pos = plr.Character.HumanoidRootPart.Position
+		if not game.Players.LocalPlayer.Character:FindFirstChild("[Knife]") then
+			plr.Character.HumanoidRootPart.CFrame = targetpos
+			local cd = game:GetService("Workspace").Ignored.Shop["[Knife] - $150"]:FindFirstChild("ClickDetector")
+			wait(.9)
+			fireclickdetector(cd)
+			wait(.4)
+			game.Players.LocalPlayer.Backpack["[Knife]"].GripPos     = Vector3.new(2, -5, -1.5)
+			game.Players.LocalPlayer.Backpack["[Knife]"].GripForward     = Vector3.new(0, 0, 0)
+			game.Players.LocalPlayer.Backpack["[Knife]"].GripRight     = Vector3.new(1, 0, -3)
+			game.Players.LocalPlayer.Backpack["[Knife]"].GripUp     = Vector3.new(0, 0, 0)
+			game.Players.LocalPlayer.Backpack["[Knife]"].Parent = game.Players.LocalPlayer.Character
+			spin = true
+			local spinSpeed = 100
+			local speaker = game.Players.LocalPlayer
+			for i,v in pairs(speaker.Character.HumanoidRootPart:GetChildren()) do
+				if v.Name == "Spinning" then
+					v:Destroy()
+				end
+			end
+			local Spin = Instance.new("BodyAngularVelocity", speaker.Character.HumanoidRootPart)
+			Spin.Name = "Spinning"
+			Spin.MaxTorque = Vector3.new(0, math.huge, 0)
+			Spin.AngularVelocity = Vector3.new(0,spinSpeed,0)
+			wait(0.6)
+		end
+	elseif msg == "/e knifespin" then
+		pcall(function()
+			for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+				if v.Name == '[Knife]' then
+					v.Parent = game.Players.LocalPlayer.Character
+				end
+			end
+		end)
+		wait(.9)
+		local targetpos = CFrame.new(-278.063446, 21.75, -240.871841)
+		local plr = game.Players.LocalPlayer
+		local pos = plr.Character.HumanoidRootPart.Position
+		if not game.Players.LocalPlayer.Character:FindFirstChild("[Knife]") then
+			plr.Character.HumanoidRootPart.CFrame = targetpos
+			local cd = game:GetService("Workspace").Ignored.Shop["[Knife] - $150"]:FindFirstChild("ClickDetector")
+			wait(.9)
+			fireclickdetector(cd)
+			wait(.4)
+			game.Players.LocalPlayer.Backpack["[Knife]"].GripPos     = Vector3.new(2, -5, -1.5)
+			game.Players.LocalPlayer.Backpack["[Knife]"].GripForward     = Vector3.new(0, 0, 0)
+			game.Players.LocalPlayer.Backpack["[Knife]"].GripRight     = Vector3.new(1, 0, -3)
+			game.Players.LocalPlayer.Backpack["[Knife]"].GripUp     = Vector3.new(0, 0, 0)
+			game.Players.LocalPlayer.Backpack["[Knife]"].Parent = game.Players.LocalPlayer.Character
+			spin = true
+			local spinSpeed = 100
+			local speaker = game.Players.LocalPlayer
+			for i,v in pairs(speaker.Character.HumanoidRootPart:GetChildren()) do
+				if v.Name == "Spinning" then
+					v:Destroy()
+				end
+			end
+			local Spin = Instance.new("BodyAngularVelocity", speaker.Character.HumanoidRootPart)
+			Spin.Name = "Spinning"
+			Spin.MaxTorque = Vector3.new(0, math.huge, 0)
+			Spin.AngularVelocity = Vector3.new(0,spinSpeed,0)
+			wait(0.6)
+		end
+	elseif msg == "/e ninjastar" then
+		local cor = coroutine.wrap(function()
+			game.Players.LocalPlayer.Character:MoveTo(Vector3.new(-278.063446, 21.75, -235.871841))
+		end)
+		cor()			
+		wait(1)
+		fireclickdetector(workspace.Ignored.Shop["[Knife] - $150"].ClickDetector, 4)
+		wait(1)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripPos     = Vector3.new(0, 0, 0 )
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripUp     = Vector3.new(0, 0, 0)
+		wait(0.20)
+		game.Players.LocalPlayer.Backpack["[Knife]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.3)
+		fireclickdetector(workspace.Ignored.Shop["[Knife] - $150"].ClickDetector, 4)
+		wait(1)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripPos     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripForward     = Vector3.new(5, 5, 5)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripUp     = Vector3.new(0, 5, 0)
+		wait(0.20)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("[Knife]") then
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Knife]").Parent = game.Players.LocalPlayer.Character
+		end
+	elseif msg == "/e star" then
+		local cor = coroutine.wrap(function()
+			game.Players.LocalPlayer.Character:MoveTo(Vector3.new(-278.063446, 21.75, -235.871841))
+		end)
+		cor()			
+		wait(1)
+		fireclickdetector(workspace.Ignored.Shop["[Knife] - $150"].ClickDetector, 4)
+		wait(1)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripPos     = Vector3.new(0, 0, 0 )
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripUp     = Vector3.new(0, 0, 0)
+		wait(0.20)
+		game.Players.LocalPlayer.Backpack["[Knife]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.3)
+		fireclickdetector(workspace.Ignored.Shop["[Knife] - $150"].ClickDetector, 4)
+		wait(1)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripPos     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripForward     = Vector3.new(5, 5, 5)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Knife]"].GripUp     = Vector3.new(0, 5, 0)
+		wait(0.20)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("[Knife]") then
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Knife]").Parent = game.Players.LocalPlayer.Character
+		end
+	elseif msg == "/e hatfling" then
+		spawn(function()
+			while true do game:GetService("RunService").Heartbeat:wait()
+				for i,v in pairs(game.Players:GetPlayers()) do
+					if v == game.Players.LocalPlayer == false then
+						game.Players.LocalPlayer.MaximumSimulationRadius = math.pow(math.huge,math.huge)*math.huge
+						game.Players.LocalPlayer.SimulationRadius = math.pow(math.huge,math.huge)*math.huge
+						v.MaximumSimulationRadius = 0
+						v.SimulationRadius = 0
+						game:GetService("RunService").Stepped:wait()
+					end
+				end
+			end
+		end)
+
+		local Player = game:GetService("Players").LocalPlayer
+		local Players = game:GetService("Players")
+		local HatList = {}
+		local i = 0
+		for _,l in pairs(Player.Character:GetChildren()) do
+			if l:IsA("Accessory") then if i>0 then l.Parent = workspace  end i = i + 1 end;
+		end
+		wait(.1)
+
+
+
+		for _,v in pairs(workspace:GetDescendants()) do
+			if v.Name == "Handle" and v:IsA("BasePart") and v.Parent:IsA("Accessory") and v:IsDescendantOf(Player.Character)==false and Players:GetPlayerFromCharacter(v.Parent.Parent)==nil then
+				table.insert(HatList,v)
+			end
+		end
+
+		for _,hat in pairs(HatList) do
+			hat.Parent = workspace
+			hat.Position = Player.Character.HumanoidRootPart.Position + Player.Character.HumanoidRootPart.CFrame.lookVector * 5
+			local BodyPos = Instance.new("BodyPosition",hat)
+			local BodyAng = Instance.new("BodyAngularVelocity",hat)
+			BodyAng.AngularVelocity = Vector3.new(0,9e12,0)
+			BodyAng.P = 9e12
+			BodyPos.MaxForce = Vector3.new(9e9,9e9,9e9)
+			BodyPos.P = 9e8
+			spawn(function()
+				while wait() do
+					if pcall(function()
+							hat.CanCollide = false
+							BodyPos.Position = Player.Character.HumanoidRootPart.Position + Vector3.new(math.random(-2,2),math.random(-2,2),math.random(-2,2))
+						end) then
+					else
+						BodyPos:Destroy()
+						hat.CanCollide = true
+					end
+				end
+			end)
+
+		end
+
+	elseif msg == "/e naked" then
+		local lol = game.Players.LocalPlayer.Character.Shirt 
+		local boy = game.Players.LocalPlayer.Character.Pants
+		lol:Destroy();
+		boy:Destroy();
+
+	elseif msg == "/e fistwave" then
+		Not("Press [U]" ,4833645592, "Kara")
+
+		DoThing = false
+		maus = game.Players.LocalPlayer:GetMouse()
+		maus.KeyDown:Connect(function(key)
+			if key == "n" and DoThing  == false then
+				DoThing = true
+				local Part = Instance.new("Part",workspace)
+				Part.Name = "GetFucked"
+				Part.Anchored = false
+				Part.CanCollide = false
+				Part.Transparency = 1
+				local Part1= Instance.new("Part",workspace)
+				Part1.Name = "GetFucked1"
+				Part1.Anchored = true
+				Part1.CanCollide = false
+				Part1.Transparency = 1
+
+				local Weld = Instance.new("Weld", Part1)
+				Weld.Part0 = Part1
+				Weld.Part1 = Part
+				Weld.C0 = CFrame.new(0, 0, 10000)
+				local cor = coroutine.wrap(function()
+					wait(2)
+					Part:Destroy()
+					Part1:Destroy()
+					Weld:Destroy()
+					DoThing = false
+				end)
+				cor()
+				pcall(function()
+					if game.Players.LocalPlayer.Character.RightHand:FindFirstChildOfClass("Model") then
+						game.Players.LocalPlayer.Character.RightHand.Model.RightWrist:Destroy()
+					end
+					game.Players.LocalPlayer.Character.RightHand.RightWrist:Destroy()
+				end)
+				local laugh = 0
+				repeat
+
+					laugh = laugh+200
+					Part1.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, laugh, math.pi/-2)
+					local lol = game.Players.LocalPlayer.Character.HumanoidRootPart
+					game.Players.LocalPlayer.Character.RightHand.CFrame = CFrame.new(Part.CFrame.X ,Part.CFrame.Y+2, Part.CFrame.Z)
+					game.Players.LocalPlayer.Character.RightHand.Massless = true
+					game.Players.LocalPlayer.Character.RightHand.Size = Vector3.new(0, 0, 0)
+					wait()
+				until game.Workspace:FindFirstChild("GetFucked") == nil
+
+				local lol = game.Players.LocalPlayer.Character.HumanoidRootPart
+				game.Players.LocalPlayer.Character.RightHand.Size = Vector3.new(1, 0.5, 1)
+				for i = 1, 10 do
+					game.Players.LocalPlayer.Character.RightHand.CFrame = lol.CFrame
+					wait(0.05)
+				end
+
+			end
+		end)
+	elseif msg == "/e flashwave" then
+		Not("Press [U]" ,4833645592, "Kara")
+
+
+		DoThing = false
+		maus = game.Players.LocalPlayer:GetMouse()
+		maus.KeyDown:Connect(function(key)
+			if key == "n" and DoThing  == false then
+				DoThing = true
+				local Part = Instance.new("Part",workspace)
+				Part.Name = "GetFucked"
+				Part.Anchored = false
+				Part.CanCollide = false
+				Part.Transparency = 1
+				local Part1= Instance.new("Part",workspace)
+				Part1.Name = "GetFucked1"
+				Part1.Anchored = true
+				Part1.CanCollide = false
+				Part1.Transparency = 1
+
+				local Weld = Instance.new("Weld", Part1)
+				Weld.Part0 = Part1
+				Weld.Part1 = Part
+				Weld.C0 = CFrame.new(0, 0, 10000)
+				local cor = coroutine.wrap(function()
+					wait(2)
+					Part:Destroy()
+					Part1:Destroy()
+					Weld:Destroy()
+					DoThing = false
+				end)
+				cor()
+				pcall(function()
+					if game.Players.LocalPlayer.Character.RightHand:FindFirstChildOfClass("Model") then
+						game.Players.LocalPlayer.Character.RightHand.Model.RightWrist:Destroy()
+					end
+					game.Players.LocalPlayer.Character.RightHand.RightWrist:Destroy()
+				end)
+				local laugh = 0
+				repeat
+
+					laugh = laugh+200
+					Part1.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, laugh, math.pi/-2)
+					local lol = game.Players.LocalPlayer.Character.HumanoidRootPart
+					game.Players.LocalPlayer.Character.RightHand.CFrame = CFrame.new(Part.CFrame.X ,Part.CFrame.Y+2, Part.CFrame.Z)
+					game.Players.LocalPlayer.Character.RightHand.Massless = true
+					game.Players.LocalPlayer.Character.RightHand.Size = Vector3.new(0, 0, 0)
+					wait()
+				until game.Workspace:FindFirstChild("GetFucked") == nil
+
+				local lol = game.Players.LocalPlayer.Character.HumanoidRootPart
+				game.Players.LocalPlayer.Character.RightHand.Size = Vector3.new(1, 0.5, 1)
+				for i = 1, 10 do
+					game.Players.LocalPlayer.Character.RightHand.CFrame = lol.CFrame
+					wait(0.05)
+				end
+
+			end
+		end)
+	elseif msg == "/e reset" then
+		Not("Press [T]" ,4833645592, "Kara")
+		DoThing = false
+		maus = game.Players.LocalPlayer:GetMouse()
+		maus.KeyDown:Connect(function(key)
+			if key == "t" then
+				local AncientPOS = plr.Character.HumanoidRootPart.Position
+				wait()
+				game.Players.LocalPlayer.Character:Destroy()
+				wait(8)
+				plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+				plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+			end
+
+		end)
+	elseif msg == "/e r" then
+		Not("Press [T]" ,4833645592, "Kara")
+		DoThing = false
+		maus = game.Players.LocalPlayer:GetMouse()
+		maus.KeyDown:Connect(function(key)
+			if key == "t" then
+
+				local AncientPOS = plr.Character.HumanoidRootPart.Position
+				wait()
+				game.Players.LocalPlayer.Character:Destroy()
+				wait(8)
+				plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+				plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+			end
+		end)
+	elseif msg == "/e autostomp" then
+		Not("Press [P]" ,4833645592, "Kara")
+
+		Toggle = false
+
+		while wait(.5) do
+			local mouse = game.Players.LocalPlayer:GetMouse()
+
+			if Toggle == false then
+				game.ReplicatedStorage.MainEvent:FireServer("Stomp")
+				mouse.KeyDown:connect(function(k)
+					if k == "p" then
+						if Toggle == false then 
+							Toggle = true
+							print('Off')
+						elseif Toggle == true then 
+							print('On')
+							Toggle = false
+						end
+					end
+				end)
+			end
+		end
+
+	elseif msg == "/e antibag" then
+		Not("Antibag enabled" ,4833645592, "Kara")
+
+		delay(0, function()
+			while wait() do
+				pcall(function()
+					if game.Players.LocalPlayer.Character:FindFirstChild("Christmas_Sock") then
+						game.Players.LocalPlayer.Character["Christmas_Sock"]:Destroy()
+					end
+				end)
+			end
+		end)
+	elseif msg == "/e antiflash" then
+		Not("antiflashbang enabled" ,4833645592, "Kara")
+		while true do
+			local NIGGA = game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui
+
+			if NIGGA:FindFirstChild("whiteScreen") then
+				NIGGA.whiteScreen:Destroy()
+			end
+			wait(0.2)
+		end
+
+	elseif msg == "/e antiflashbang" then
+		Not("antiflashbang enabled" ,4833645592, "Kara")
+		while true do
+			local NIGGA = game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui
+
+			if NIGGA:FindFirstChild("whiteScreen") then
+				NIGGA.whiteScreen:Destroy()
+			end
+			wait(0.2)
+		end
+
+	elseif msg == "/e fistreach" then
+		local fistreach = false
+		LP = game.Players.LocalPlayer
+		for i,v in ipairs(LP.Character:GetDescendants()) do
+			if v:IsA("MeshPart") then v.Massless = true
+				v.CanCollide = false
+				v.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0, 0, 0)
+
+			end
+		end
+
+		for i,v in ipairs(game.workspace:GetDescendants()) do
+			if v:IsA("Seat") then 
+				v.Disabled = true
+			end
+		end
+		x = 35
+		y = 35
+		z = 35
+
+
+		penis = Vector3.new(x,y,z)
+
+		LP.Character.RightHand.Size = penis
+
+		LP.Character.RightHand.Transparency = 1
+		local selectionBox = Instance.new("SelectionBox",LP.Character.RightHand)
+		selectionBox.Adornee = LP.Character.RightHand
+		selectionBox.Color3 = Color3.new(0.415686, 0.415686, 0.415686)
+
+		LP.Character.LeftHand.Size = penis
+		LP.Character.BodyEffects.SpecialParts.LeftHand.Size = penis
+
+		LP.Character.LeftHand.Transparency = 1
+		local selectionBox = Instance.new("SelectionBox",LP.Character.LeftHand)
+		selectionBox.Adornee = LP.Character.LeftHand
+		selectionBox.Color3 = Color3.new(0, 0, 0)
+	elseif msg == "/e antistomp" then
+		local plr = game.Players.LocalPlayer
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = plr.Name .. " Antistomp";
+			Duration = 15;
+		})
+		pcall(function() if tostring(game.PlaceId) == "2788229376" then local corepackages = game:GetService"CorePackages" local localplayer = game:GetService"Players".LocalPlayer local run = game:GetService"RunService" run:BindToRenderStep("rrrrrrrrrrr",2000,function() pcall(function() if localplayer.Character.Humanoid.Health <= 30 then localplayer.Character.Humanoid:UnequipTools() localplayer.Character.Humanoid:Destroy() workspace.CurrentCamera.CameraSubject = localplayer.Character wait() local prt = Instance.new("Model", corepackages); Instance.new("Part", prt).Name="Torso"; Instance.new("Part", prt).Name="Head"; Instance.new("Humanoid", prt).Name="Humanoid"; localplayer.Character=prt end end) pcall(function() if localplayer.Character.Humanoid.FloorMaterial == "Plastic" then ReplicatedStorage:FireServer("Stomp") end end) end) 
+			end end)
+	elseif msg == "/e antiloseweapon" then
+		local plr = game.Players.LocalPlayer
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = plr.Name .. " Antistomp";
+			Duration = 15;
+		})
+		pcall(function() if tostring(game.PlaceId) == "2788229376" then local corepackages = game:GetService"CorePackages" local localplayer = game:GetService"Players".LocalPlayer local run = game:GetService"RunService" run:BindToRenderStep("rrrrrrrrrrr",2000,function() pcall(function() if localplayer.Character.Humanoid.Health <= 30 then localplayer.Character.Humanoid:UnequipTools() localplayer.Character.Humanoid:Destroy() workspace.CurrentCamera.CameraSubject = localplayer.Character wait() local prt = Instance.new("Model", corepackages); Instance.new("Part", prt).Name="Torso"; Instance.new("Part", prt).Name="Head"; Instance.new("Humanoid", prt).Name="Humanoid"; localplayer.Character=prt end end) pcall(function() if localplayer.Character.Humanoid.FloorMaterial == "Plastic" then ReplicatedStorage:FireServer("Stomp") end end) end) 
+			end end)
+
+	elseif msg == "/e holycross" then
+		wait(0) local A_1 = "[Kara] HolyCross Enabled" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2)
+
+		pcall(function()
+			for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+				if v.Name == '[SledgeHammer]' then
+					v.Parent = game.Players.LocalPlayer.Character
+				end
+			end
+		end)
+		wait(.9)
+		local targetpos = CFrame.new(-899.925659, 21.75, -297.100342)
+		local plr = game.Players.LocalPlayer
+		local pos = plr.Character.HumanoidRootPart.Position
+		if not game.Players.LocalPlayer.Character:FindFirstChild("[SledgeHammer]") then
+			plr.Character.HumanoidRootPart.CFrame = targetpos
+			local cd = game:GetService("Workspace").Ignored.Shop["[SledgeHammer] - $350"]:FindFirstChild("ClickDetector")
+			wait(.9)
+			fireclickdetector(cd)
+			wait(.4)
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[SledgeHammer]").Parent = plr.Character
+			wait(.9)
+			fireclickdetector(cd)
+			wait(.4)
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[SledgeHammer]").Parent = plr.Character
+			for i,v in pairs(plr.Character:GetChildren()) do
+				if v.Name == '[SledgeHammer]' then
+					v:GetChildren()[3]:Destroy()
+				end
+			end
+			local sd = plr.Character:FindFirstChild("[SledgeHammer]")
+			sd.Grip = CFrame.new(-2.4000001, -0.699999988, 0, 0, 1, -0, -1, 0, -0, 0, 0, 1)
+			sd.GripForward = Vector3.new(0, 0, -1)
+			sd.GripPos = Vector3.new(-2.4, -0.7, 0)
+			sd.GripUp = Vector3.new(1, 0, 0)
+			plr.Character.HumanoidRootPart.CFrame = CFrame.new(pos)
+		end
+		local sd = plr.Character:FindFirstChild("[SledgeHammer]")
+		sd.Grip = CFrame.new(-2.4000001, -0.699999988, 0, 0, 1, -0, -1, 0, -0, 0, 0, 1)
+		sd.GripForward = Vector3.new(0, 0, -1)
+		sd.GripPos = Vector3.new(-2.4, -0.7, 0)
+		sd.GripUp = Vector3.new(1, 0, 0)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(pos)
+
+	elseif msg == "/e antislowdown" then
+		while wait(0.20) do
+			game.Players.LocalPlayer.Character.BodyEffects.Movement.ChildAdded:Connect(function(child)
+				wait()
+				child:Destroy()
+			end)
+		end
+	elseif msg == "/e noslow" then
+		while wait(0.20) do
+			game.Players.LocalPlayer.Character.BodyEffects.Movement.ChildAdded:Connect(function(child)
+				wait()
+				child:Destroy()
+			end)
+		end
+	elseif msg == "/e godmode" then
+		game.Players.LocalPlayer.Character.BodyEffects.Armor:Destroy()
+		local name = game.Players.LocalPlayer.Name
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+		game.Players.LocalPlayer.Character:ClearAllChildren()
+		local lol =    game.Workspace:WaitForChild(name)
+		local money = Instance.new("Folder",game.Players.LocalPlayer.Character);money.Name = "FULLY_LOADED_CHAR"
+		lol.Parent = game.Workspace.Players
+		game.Players.LocalPlayer.Character:WaitForChild("BodyEffects")
+		game.Players.LocalPlayer.Character.BodyEffects.BreakingParts:Destroy()
+	elseif msg == "/e fullgodmode" then
+		game.Players.LocalPlayer.Character.BodyEffects.Armor:Destroy()
+		local name = game.Players.LocalPlayer.Name
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+		game.Players.LocalPlayer.Character:ClearAllChildren()
+		local lol =    game.Workspace:WaitForChild(name)
+		local money = Instance.new("Folder",game.Players.LocalPlayer.Character);money.Name = "FULLY_LOADED_CHAR"
+		lol.Parent = game.Workspace.Players
+		game.Players.LocalPlayer.Character:WaitForChild("BodyEffects")
+		game.Players.LocalPlayer.Character.BodyEffects.BreakingParts:Destroy()
+	elseif msg == "/e god" then
+		game.Players.LocalPlayer.Character.BodyEffects.Armor:Destroy()
+		local name = game.Players.LocalPlayer.Name
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+		game.Players.LocalPlayer.Character:ClearAllChildren()
+		local lol =    game.Workspace:WaitForChild(name)
+		local money = Instance.new("Folder",game.Players.LocalPlayer.Character);money.Name = "FULLY_LOADED_CHAR"
+		lol.Parent = game.Workspace.Players
+		game.Players.LocalPlayer.Character:WaitForChild("BodyEffects")
+		game.Players.LocalPlayer.Character.BodyEffects.BreakingParts:Destroy()
+
+	elseif msg:sub(1, 7) == "/e bag " then
+		local pl = GetPlayer(msg:sub(8))
+		local TargetPlrs = pl.Name
+		function getRoot(char)
+			local rootPart = char:FindFirstChild('HumanoidRootPart') or char:FindFirstChild('Torso') or char:FindFirstChild('UpperTorso')
+			return rootPart
+		end
+
+		if TargetPlrs and game.Players[TargetPlrs].Character.BodyEffects['K.O'].Value == false then
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.Ignored.Shop['[BrownBag] - $25'].Head.CFrame
+			wait(.30)
+			fireclickdetector(game.Workspace.Ignored.Shop['[BrownBag] - $25'].ClickDetector)
+			game.Players.LocalPlayer.Backpack:WaitForChild("[BrownBag]").Parent = game.Players.LocalPlayer.Character
+
+			local A_1 = "[Kara] Attempting To Bag " .. TargetPlrs .. "." local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2)
+			wait(.5)
+			repeat
+				pcall(function()
+					wait()
+					getRoot(game.Players[TargetPlrs].Character).CFrame = getRoot(game.Players.LocalPlayer.Character).CFrame + Vector3.new(1,3,0)
+					game.Players.LocalPlayer.Character["[BrownBag]"]:Activate()
+				end)
+			until game.Players[TargetPlrs].Character:FindFirstChild("Christmas_Sock")
+			local A_1 = "[Kara] Successfully Bagged " .. TargetPlrs .. "." local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2)
+		elseif game.Players[TargetPlrs].Character.BodyEffects['K.O'].Value == false then
+			local A_1 = "[Kara] " .. TargetPlrs .. " Is Already Bagged." local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2)
+		end
+
+	elseif msg:sub(1, 8) == "/e spec " then
+		local pl = GetPlayer(msg:sub(9))
+		local TargetPlr = pl.Name
+		game.Workspace.Camera.CameraSubject = game.Players[TargetPlr].Character.Humanoid;
+
+
+	elseif msg == "/e unspec" then
+
+		game.Workspace.Camera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid;
+
+	elseif msg == "/e backflip" then
+		Not("Press Z,C,B to backflip" ,4833645592, "Kara")
+
+		wait(5)
+
+		--[[ Info ]]--
+
+		local ver = "2.00"
+		local scriptname = "feFlip"
+
+
+		--[[ Keybinds ]]--
+
+		local FrontflipKey = Enum.KeyCode.Z
+		local BackflipKey = Enum.KeyCode.C
+		local AirjumpKey = Enum.KeyCode.B
+
+
+		--[[ Dependencies ]]--
+
+		local ca = game:GetService("ContextActionService")
+		local zeezy = game:GetService("Players").LocalPlayer
+		local h = 0.0174533
+		local antigrav
+
+
+		--[[ Functions ]]--
+
+		function zeezyFrontflip(act,inp,obj)
+			if inp == Enum.UserInputState.Begin then
+				zeezy.Character.Humanoid:ChangeState("Jumping")
+				wait()
+				zeezy.Character.Humanoid.Sit = true
+				for i = 1,360 do 
+					delay(i/720,function()
+						zeezy.Character.Humanoid.Sit = true
+						zeezy.Character.HumanoidRootPart.CFrame = zeezy.Character.HumanoidRootPart.CFrame * CFrame.Angles(-h,0,0)
+					end)
+				end
+				wait(0.55)
+				zeezy.Character.Humanoid.Sit = false
+			end
+		end
+
+		function zeezyBackflip(act,inp,obj)
+			if inp == Enum.UserInputState.Begin then
+				zeezy.Character.Humanoid:ChangeState("Jumping")
+				wait()
+				zeezy.Character.Humanoid.Sit = true
+				for i = 1,360 do
+					delay(i/720,function()
+						zeezy.Character.Humanoid.Sit = true
+						zeezy.Character.HumanoidRootPart.CFrame = zeezy.Character.HumanoidRootPart.CFrame * CFrame.Angles(h,0,0)
+					end)
+				end
+				wait(0.55)
+				zeezy.Character.Humanoid.Sit = false
+			end
+		end
+
+		function zeezyAirjump(act,inp,obj)
+			if inp == Enum.UserInputState.Begin then
+				zeezy.Character:FindFirstChildOfClass'Humanoid':ChangeState("Seated")
+				wait()
+				zeezy.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")	
+			end
+		end
+
+
+		--[[ Binds ]]--
+
+		ca:BindAction("zeezyFrontflip",zeezyFrontflip,false,FrontflipKey)
+		ca:BindAction("zeezyBackflip",zeezyBackflip,false,BackflipKey)
+		ca:BindAction("zeezyAirjump",zeezyAirjump,false,AirjumpKey)
+
+	elseif msg:sub(1, 7) == "/e cash" then
+		local pl = GetPlayer(msg:sub(9))
+		local TargetPlr = pl.Name
+		local A_1 = "[Kara] " .. TargetPlr .. " Have $" .. game.Players[TargetPlr].DataFolder.Currency.Value .. "." local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2)
+	elseif msg == "/e airstrike" then
+		for i,v in pairs(game:GetService'Players'.LocalPlayer.Character:GetChildren())do                 if v:isA("Tool") then                     local a = Instance.new("SelectionBox",v.Handle)                     a.Adornee = v.Handle                         v.GripPos = Vector3.new(10,-10,10)                     lplayer.Character.Humanoid:UnequipTools()                 end end
+	elseif msg == "/e credit" then
+		Not("RushKara#0001" ,4833645592, "Credits")
+
+	elseif msg == "/e credits" then
+		Not("RushKara#0001" ,4833645592, "Credits")
+
+	elseif msg:sub(1, 7) == "/e lock" then
+		local pl = GetPlayer(msg:sub(9))
+		local TargetPlr = pl.Name
+		local localPlayer     = game:GetService("Players").LocalPlayer;
+		local localCharacter  = localPlayer.Character;
+
+
+		if TargetPlr and game.Players[TargetPlr].Character.BodyEffects['K.O'].Value == false then
+			pcall(function()
+				localCharacter.LeftHand.LeftWrist:Destroy();
+				localCharacter.RightHand.RightWrist:Destroy();
+			end);
+			repeat
+				wait();
+				localCharacter.LeftHand.CFrame = game.Players[TargetPlr].Character.LowerTorso.CFrame;
+				localCharacter.RightHand.CFrame = game.Players[TargetPlr].Character.LowerTorso.CFrame;
+			until game.Players[TargetPlr].Character.BodyEffects['K.O'].Value == true
+			game.StarterGui:SetCore("SendNotification", {
+				Title = "Kara";
+				Text = TargetPlr .. " Has been successfully knocked!";
+				Duration = 15;
+			})
+		elseif game.Players[TargetPlr].Character.BodyEffects['K.O'].Value == true then
+			game.StarterGui:SetCore("SendNotification", {
+				Title = "Kara";
+				Text = TargetPlr .. " Is already knocked.";
+				Duration = 15;
+			})
+		end;
+	elseif msg == "/e noclip" then
+
+		game:GetService("Players").LocalPlayer.Character.Head.Touched:connect(function(obj)
+			obj.CanCollide = false
+		end)
+	elseif msg == "/e clip" then
+		local plr = game.Players.LocalPlayer
+		plr.Character.Humanoid:ChangeState(11)
+
+	elseif msg == "/e hulk" then
+		local plr = game.Players.LocalPlayer
+
+		local SuperSpeed = Instance.new("IntValue",plr.Character.BodyEffects.Movement);SuperSpeed.Name = "SuperSpeed"
+		local HulkJump = Instance.new("IntValue",plr.Character.BodyEffects.Movement);HulkJump.Name = "HulkJump"
+
+	elseif msg == "/e killall" then
+		local Knife = false
+		Knife = true
+		repeat
+
+			local cor = coroutine.wrap(function()
+				if not game.Players.LocalPlayer.Character:FindFirstChild("[Knife]") then
+					takingbag = true
+					local cor = coroutine.wrap(function()
+
+						game.Players.LocalPlayer.Character:MoveTo(Vector3.new(-278.063446, 21.75, -240.871841))
+					end)
+					cor()
+					wait(1)
+
+					fireclickdetector(workspace.Ignored.Shop["[Knife] - $150"].ClickDetector, 4)
+					game.Players.LocalPlayer.Backpack["[Knife]"].Handle.Size = Vector3.new(10, 10, 10)
+					wait(0.5)
+					game.Players.LocalPlayer.Backpack["[Knife]"].Parent = game.Players.LocalPlayer.Character
+					takingbag = false
+				end
+			end)
+			cor()
+			if takingbag == false then
+				for i, v  in pairs(game.Players:GetPlayers()) do
+					if v.Character:FindFirstChild("Knife") == nil and v.Character:FindFirstChildOfClass("ForceField") == nil and v.Character ~= game.Players.LocalPlayer.Character then
+						local chars = v.Character
+						if game.Players.LocalPlayer.Character:FindFirstChild("[Knife]") then
+							game.Players.LocalPlayer.Character["[Knife]"]:Activate()
+						end
+						game.Players.LocalPlayer.Character:MoveTo(v.Character.UpperTorso.Position)
+					end
+					wait(0.005)
+					Knife = false
+				end
+			end
+			wait()
+		until Knife == false
+	elseif msg == "/e kill all" then
+		local Knife = false
+		Knife = true
+		repeat
+
+			local cor = coroutine.wrap(function()
+				if not game.Players.LocalPlayer.Character:FindFirstChild("[Knife]") then
+					takingbag = true
+					local cor = coroutine.wrap(function()
+
+						game.Players.LocalPlayer.Character:MoveTo(Vector3.new(-278.063446, 21.75, -240.871841))
+					end)
+					cor()
+					wait(1)
+
+					fireclickdetector(workspace.Ignored.Shop["[Knife] - $150"].ClickDetector, 4)
+					game.Players.LocalPlayer.Backpack["[Knife]"].Handle.Size = Vector3.new(10, 10, 10)
+					wait(0.5)
+					game.Players.LocalPlayer.Backpack["[Knife]"].Parent = game.Players.LocalPlayer.Character
+					takingbag = false
+				end
+			end)
+			cor()
+			if takingbag == false then
+				for i, v  in pairs(game.Players:GetPlayers()) do
+					if v.Character:FindFirstChild("Knife") == nil and v.Character:FindFirstChildOfClass("ForceField") == nil and v.Character ~= game.Players.LocalPlayer.Character then
+						local chars = v.Character
+						if game.Players.LocalPlayer.Character:FindFirstChild("[Knife]") then
+							game.Players.LocalPlayer.Character["[Knife]"]:Activate()
+						end
+						game.Players.LocalPlayer.Character:MoveTo(v.Character.UpperTorso.Position)
+					end
+					wait(0.005)
+					Knife = false
+				end
+			end
+			wait()
+		until Knife == false
+
+	elseif msg == "/e Spongebob" then
+		loadstring(game:HttpGet("https://pastebin.com/raw/EjRcJTb9", true))()
+
+	elseif msg == "/e spongebob" then
+		loadstring(game:HttpGet("https://pastebin.com/raw/EjRcJTb9", true))()
+
+	elseif msg == "/e sponge bob" then
+
+		loadstring(game:HttpGet("https://pastebin.com/raw/EjRcJTb9", true))()
+	elseif msg == "/e dropaccessory" then
+		local Player = game:GetService("Players").LocalPlayer
+		local Players = game:GetService("Players")
+		local HatList = {}
+		local i = 0
+		plr = game.Players.LocalPlayer
+		for _,l in pairs(Player.Character:GetChildren()) do
+			if l:IsA("Accessory") then if i>0 then l.Parent = workspace  end i = i + 1 end;
+		end
+		wait(.1)
+
+		wait(3)
+		local AncientPOS = plr.Character.HumanoidRootPart.Position
+		wait()
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+		wait(7)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e drop accessory" then
+		local Player = game:GetService("Players").LocalPlayer
+		local Players = game:GetService("Players")
+		local HatList = {}
+		local i = 0
+		plr = game.Players.LocalPlayer
+		for _,l in pairs(Player.Character:GetChildren()) do
+			if l:IsA("Accessory") then if i>0 then l.Parent = workspace  end i = i + 1 end;
+		end
+		wait(.1)
+
+		wait(3)
+		local AncientPOS = plr.Character.HumanoidRootPart.Position
+		wait()
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+		wait(7)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e Drop Accessory" then
+		local Player = game:GetService("Players").LocalPlayer
+		local Players = game:GetService("Players")
+		local HatList = {}
+		local i = 0
+		plr = game.Players.LocalPlayer
+		for _,l in pairs(Player.Character:GetChildren()) do
+			if l:IsA("Accessory") then if i>0 then l.Parent = workspace  end i = i + 1 end;
+		end
+		wait(.1)
+
+		wait(3)
+		local AncientPOS = plr.Character.HumanoidRootPart.Position
+		wait()
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+		wait(7)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e DropAccessory" then
+		local Player = game:GetService("Players").LocalPlayer
+		local Players = game:GetService("Players")
+		local HatList = {}
+		local i = 0
+		plr = game.Players.LocalPlayer
+		for _,l in pairs(Player.Character:GetChildren()) do
+			if l:IsA("Accessory") then if i>0 then l.Parent = workspace  end i = i + 1 end;
+		end
+		wait(.1)
+
+		wait(3)
+		local AncientPOS = plr.Character.HumanoidRootPart.Position
+		wait()
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+		wait(7)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e Dropccessory" then
+		local Player = game:GetService("Players").LocalPlayer
+		local Players = game:GetService("Players")
+		local HatList = {}
+		local i = 0
+		plr = game.Players.LocalPlayer
+		for _,l in pairs(Player.Character:GetChildren()) do
+			if l:IsA("Accessory") then if i>0 then l.Parent = workspace  end i = i + 1 end;
+		end
+		wait(.1)
+
+		wait(3)
+		local AncientPOS = plr.Character.HumanoidRootPart.Position
+		wait()
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+		wait(7)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e shield" then
+		local Players = game:GetService("Players")
+		local RunService = game:GetService("RunService")
+
+		local LocalPlayer = Players.LocalPlayer
+		local Mouse = LocalPlayer:GetMouse()
+
+		local Character = LocalPlayer.Character
+		local RightHand = Character.RightHand
+
+		local Character = LocalPlayer.Character
+		local LeftHand = Character.LeftHand
+
+		local Character = LocalPlayer.Character
+		local LowerTorso = Character.LowerTorso
+
+		local Character = LocalPlayer.Character
+		local UpperTorso = Character.UpperTorso
+
+
+
+		wait(0)
+
+		local Box = Instance.new("SelectionBox")
+		Box.LineThickness = 0,9,8
+		Box.Color3 = Color3.new(1, 1, 1)
+		Box.Transparency = 0.1
+		Box.Adornee = RightHand
+		Box.Parent = RightHand
+
+		local Box = Instance.new("SelectionBox")
+		Box.LineThickness = 0,9,8
+		Box.Color3 = Color3.new(1, 0, 0)
+		Box.Transparency = 0.1
+		Box.Adornee = LeftHand
+		Box.Parent = LeftHand
+
+		local Box = Instance.new("SelectionBox")
+		Box.LineThickness = 0,9,8
+		Box.Color3 = Color3.new(1, 0, 0)
+		Box.Transparency = 0.1
+		Box.Adornee = LowerTorso
+		Box.Parent = LowerTorso
+
+		local Box = Instance.new("SelectionBox")
+		Box.LineThickness = 0,9,8
+		Box.Color3 = Color3.new(1, 0, 0)
+		Box.Transparency = 0.1
+		Box.Adornee = UpperTorso
+		Box.Parent = UpperTorso
+
+	elseif msg == "/e unjail" then
+		local cor = coroutine.wrap(function()
+			game.Players.LocalPlayer.Character:MoveTo(Vector3.new(-270.063446, 21.75, -238.871841))
+		end)
+		cor()			
+		wait(1)
+		fireclickdetector(workspace.Ignored.Shop["[Key] - $125"].ClickDetector, 4)
+		wait(0.5)
+		game.Players.LocalPlayer.Backpack["[Key]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.5)
+		game.Players.LocalPlayer.Character["[Key]"]:Activate()
+
+	elseif msg == "/e Unjail" then
+		local cor = coroutine.wrap(function()
+			game.Players.LocalPlayer.Character:MoveTo(Vector3.new(-270.063446, 21.75, -238.871841))
+		end)
+		cor()			
+		wait(1)
+		fireclickdetector(workspace.Ignored.Shop["[Key] - $125"].ClickDetector, 4)
+		wait(0.5)
+		game.Players.LocalPlayer.Backpack["[Key]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.5)
+		game.Players.LocalPlayer.Character["[Key]"]:Activate()
+	elseif msg == "/e bigothers" then
+		print("niggers")
+		function getplrsname()
+			for i,v in pairs(game:GetChildren()) do
+				if v.ClassName == "Players" then
+					return v.Name
+				end
+			end
+		end
+		local players = getplrsname()
+		local plr = game[players].LocalPlayer
+		coroutine.resume(coroutine.create(function()
+			while  wait(1) do
+				coroutine.resume(coroutine.create(function()
+					for _,v in pairs(game[players]:GetPlayers()) do
+						if v.Name ~= plr.Name and v.Character then
+							v.Character.LowerTorso.CanCollide = false
+							v.Character.LowerTorso.Material = "Neon"
+							v.Character.RightHand.Size = Vector3.new(5,5,5)
+							v.Character.LeftHand.Size = Vector3.new(5,5,5)
+							v.Character.HumanoidRootPart.Size = Vector3.new(15,15,15)
+						end
+					end
+				end))
+			end
+		end))
+	elseif msg == "/e Bigothers" then
+		print("niggers")
+		function getplrsname()
+			for i,v in pairs(game:GetChildren()) do
+				if v.ClassName == "Players" then
+					return v.Name
+				end
+			end
+		end
+		local players = getplrsname()
+		local plr = game[players].LocalPlayer
+		coroutine.resume(coroutine.create(function()
+			while  wait(1) do
+				coroutine.resume(coroutine.create(function()
+					for _,v in pairs(game[players]:GetPlayers()) do
+						if v.Name ~= plr.Name and v.Character then
+							v.Character.LowerTorso.CanCollide = false
+							v.Character.LowerTorso.Material = "Neon"
+							v.Character.RightHand.Size = Vector3.new(5,5,5)
+							v.Character.LeftHand.Size = Vector3.new(5,5,5)
+							v.Character.HumanoidRootPart.Size = Vector3.new(15,15,15)
+						end
+					end
+				end))
+			end
+		end))
+	elseif msg == "/e Big others" then
+		print("niggers")
+		function getplrsname()
+			for i,v in pairs(game:GetChildren()) do
+				if v.ClassName == "Players" then
+					return v.Name
+				end
+			end
+		end
+		local players = getplrsname()
+		local plr = game[players].LocalPlayer
+		coroutine.resume(coroutine.create(function()
+			while  wait(1) do
+				coroutine.resume(coroutine.create(function()
+					for _,v in pairs(game[players]:GetPlayers()) do
+						if v.Name ~= plr.Name and v.Character then
+							v.Character.LowerTorso.CanCollide = false
+							v.Character.LowerTorso.Material = "Neon"
+							v.Character.RightHand.Size = Vector3.new(5,5,5)
+							v.Character.LeftHand.Size = Vector3.new(5,5,5)
+							v.Character.HumanoidRootPart.Size = Vector3.new(15,15,15)
+						end
+					end
+				end))
+			end
+		end))
+	elseif msg == "/e Big Others" then
+		print("niggers")
+		function getplrsname()
+			for i,v in pairs(game:GetChildren()) do
+				if v.ClassName == "Players" then
+					return v.Name
+				end
+			end
+		end
+		local players = getplrsname()
+		local plr = game[players].LocalPlayer
+		coroutine.resume(coroutine.create(function()
+			while  wait(1) do
+				coroutine.resume(coroutine.create(function()
+					for _,v in pairs(game[players]:GetPlayers()) do
+						if v.Name ~= plr.Name and v.Character then
+							v.Character.LowerTorso.CanCollide = false
+							v.Character.LowerTorso.Material = "Neon"
+							v.Character.RightHand.Size = Vector3.new(5,5,5)
+							v.Character.LeftHand.Size = Vector3.new(5,5,5)
+							v.Character.HumanoidRootPart.Size = Vector3.new(15,15,15)
+						end
+					end
+				end))
+			end
+		end))
+	elseif msg == "/e big all" then
+		print("niggers")
+		function getplrsname()
+			for i,v in pairs(game:GetChildren()) do
+				if v.ClassName == "Players" then
+					return v.Name
+				end
+			end
+		end
+		local players = getplrsname()
+		local plr = game[players].LocalPlayer
+		coroutine.resume(coroutine.create(function()
+			while  wait(1) do
+				coroutine.resume(coroutine.create(function()
+					for _,v in pairs(game[players]:GetPlayers()) do
+						if v.Name ~= plr.Name and v.Character then
+							v.Character.LowerTorso.CanCollide = false
+							v.Character.LowerTorso.Material = "Neon"
+							v.Character.RightHand.Size = Vector3.new(5,5,5)
+							v.Character.LeftHand.Size = Vector3.new(5,5,5)
+							v.Character.HumanoidRootPart.Size = Vector3.new(15,15,15)
+						end
+					end
+				end))
+			end
+		end))
+	elseif msg == "/e vampire" then
+		game.Players.LocalPlayer.Character.Head.face:Destroy()
+		game.Players.LocalPlayer.Character.Head.face:Destroy()
+		local decal = Instance.new("Decal")
+		decal.Texture = "http://www.roblox.com/asset/?id=3148110154"
+		decal.Parent = game.Players.LocalPlayer.Character.Head
+
+	elseif msg == "/e vamp" then
+		game.Players.LocalPlayer.Character.Head.face:Destroy()
+		local decal = Instance.new("Decal")
+		decal.Texture = "http://www.roblox.com/asset/?id=3148110154"
+		decal.Parent = game.Players.LocalPlayer.Character.Head
+	elseif msg == "/e horror" then
+		game.Lighting.GlobalShadows = true
+		game.Lighting.Ambient = Color3.new(1,0,0)
+		game.Lighting.FogEnd = 10000000
+		game.Players.LocalPlayer.Character.Head.face:Destroy()
+		local decal = Instance.new("Decal")
+		decal.Texture = "http://www.roblox.com/asset/?id=3610729492"
+		decal.Parent = game.Players.LocalPlayer.Character.Head
+
+	elseif 	msg:sub(1, 6) == "/e rpg" then
+		local pl = GetPlayer(msg:sub(8))
+		local TargetPlr = pl.Name
+
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("[RPG]") then
+
+
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[RPG]").Parent = game.Players.LocalPlayer.Character
+		else
+			Not("You Doesn't have rpg buy an rpg ", 145360599, "Kara")
+			nuking = false
+		end
+
+		nuking = true
+		nukerowner = TargetPlr
+		game.Players.LocalPlayer.Character:FindFirstChild("[RPG]"):Activate()
+	elseif msg:sub(1,9) == "/e arrest" then
+		local pl = GetPlayer(msg:sub(11))
+		local TargetPlr = pl.Name
+		for i,v in pairs(game.Players:GetPlayers()) do 
+			if game.Players.LocalPlayer.Backpack:FindFirstChild("[RPG]") then
+				Not("Arresting "..TargetPlr, 145360599, "Kara")
+				game.Players.LocalPlayer.Backpack:FindFirstChild("[RPG]").Parent = game.Players.LocalPlayer.Character
+			else
+				Not("You doesnt have an rpg", 145360599, "Kara")
+			end
+			nuking = true
+			nukerowner = TargetPlr
+			game.Players.LocalPlayer.Character:FindFirstChild("[RPG]"):Activate()
+			repeat
+				if workspace.Players:FindFirstChild(TargetPlr) then
+					if workspace.Players[TargetPlr].BodyEffects["K.O"].Value == true then
+						if game.Players.LocalPlayer.Backpack:FindFirstChild("Cuff") then
+							game.Players.LocalPlayer.Backpack:FindFirstChild("Cuff").Parent = game.Players.LocalPlayer.Character
+						else
+							Not("You are not a cop", 145360599, "Kara")
+						end
+						game.Players.LocalPlayer.Character:FindFirstChild("Cuff"):Activate()
+						game.Players.LocalPlayer.Character:MoveTo(workspace.Players[TargetPlr].Head.Position)
+						if workspace:FindFirstChild("Core") then
+							workspace.Core:Destroy()
+						end
+						flying = false
+					end
+				end
+				wait()
+			until workspace.Players[nukerowner].BodyEffects["Cuff"].Value == true
+
+			break
+		end
+	elseif msg:sub(1, 7) == "/e drop" then
+		local id = msg:match("%d+")
+		local A_1 = "DropMoney"
+		local A_2 = id
+		local Event = game:GetService("ReplicatedStorage").MainEvent
+		Event:FireServer(A_1, A_2)
+		Not("Dropping $"..id.." cash", 145360599, "Cash Drop")
+
+	elseif msg:sub(1, 11) == "/e autodrop" then
+		while wait(3) do
+			local id = msg:match("%d+")
+			local A_1 = "DropMoney"
+			local A_2 = id
+			local Event = game:GetService("ReplicatedStorage").MainEvent
+			Event:FireServer(A_1, A_2)
+			Not("Dropping $"..id.." cash", 145360599, "Cash Drop")
+		end
+	elseif msg == "/e splitgrenade" then
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]") then
+			local LocalPlayer = game:GetService("Players").LocalPlayer
+			local char = LocalPlayer.Character
+			local Ignored = game.workspace.Ignored
+			local backpack = LocalPlayer.Backpack
+			local x = 0
+			local Grenade = "[Grenade]"
+			local DroppedGrenade = "Handle"
+
+			for i,v in pairs(backpack:GetChildren()) do
+				if v.Name == Grenade then
+					v.Parent = char
+				end
+			end
+			for i,v in pairs(char:GetChildren()) do
+				if v.Name == Grenade then
+					v:Activate()
+					v:Activate()
+				end
+			end
+		else
+			Not("Buy grenade atleast 5 or more",4833645592,"Kara")
+		end
+	elseif msg == "/e split" then
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]") then
+			local LocalPlayer = game:GetService("Players").LocalPlayer
+			local char = LocalPlayer.Character
+			local Ignored = game.workspace.Ignored
+			local backpack = LocalPlayer.Backpack
+			local x = 0
+			local Grenade = "[Grenade]"
+			local DroppedGrenade = "Handle"
+
+			for i,v in pairs(backpack:GetChildren()) do
+				if v.Name == Grenade then
+					v.Parent = char
+				end
+			end
+			for i,v in pairs(char:GetChildren()) do
+				if v.Name == Grenade then
+					v:Activate()
+					v:Activate()
+				end
+			end
+		else
+			Not("Buy grenade atleast 5 or more",4833645592,"Kara")
+		end
+	elseif msg:sub(1, 7) == "/e call" then
+		for i,v in pairs(game.Players:GetPlayers()) do 
+			if v.Name:lower():sub(1,#msg:sub(9)) == msg:sub(9):lower() then
+				local plr = v
+				if plr.Character:FindFirstChild("Humanoid") then
+					local A_1 = "PhoneCall"
+					local A_2 = plr.Name
+					local Event = game:GetService("ReplicatedStorage").MainEvent
+					Event:FireServer(A_1, A_2)
+					Not("Calling "..plr.name, 4833645592, "Kara")
+					break
+				end
+			end
+		end        
+	elseif msg == "/e maskspam" then
+		local notifSound = Instance.new("Sound",workspace)
+		notifSound.PlaybackSpeed = 1.5
+		notifSound.Volume = 0.15
+		notifSound.SoundId = "rbxassetid://170765130"
+		notifSound.PlayOnRemove = true
+		notifSound:Destroy()
+		game.StarterGui:SetCore("SendNotification", {Title = "Kara", Text = "Mask Spam Remove it and put it", Icon = "rbxassetid://505845268", Duration = 5, Button1 = "Okay"})
+		gsPlayers = game:GetService("Players")
+		gsWorkspace = game:GetService("Workspace")
+		gsLighting = game:GetService("Lighting")
+		gsReplicatedStorage = game:GetService("ReplicatedStorage")
+		gsCoreGui = game:GetService("CoreGui")
+		gsTween = game:GetService("TweenService")
+		gsHttp = game:GetService("HttpService")
+
+		LP = gsPlayers.LocalPlayer
+		Mouse = LP:GetMouse()
+
+		LP.Character.ChildAdded:Connect(function(b)
+			wait(0)
+			if b:IsA("Accessory") then b.Handle.Mesh:Destroy()
+				b.Parent = gsWorkspace
+			end
+		end)
+	elseif msg == "/e partspam" then
+		local notifSound = Instance.new("Sound",workspace)
+		notifSound.PlaybackSpeed = 1.5
+		notifSound.Volume = 0.15
+		notifSound.SoundId = "rbxassetid://170765130"
+		notifSound.PlayOnRemove = true
+		notifSound:Destroy()
+		game.StarterGui:SetCore("SendNotification", {Title = "Kara", Text = "Mask Spam Remove it and put it", Icon = "rbxassetid://505845268", Duration = 5, Button1 = "Okay"})
+		gsPlayers = game:GetService("Players")
+		gsWorkspace = game:GetService("Workspace")
+		gsLighting = game:GetService("Lighting")
+		gsReplicatedStorage = game:GetService("ReplicatedStorage")
+		gsCoreGui = game:GetService("CoreGui")
+		gsTween = game:GetService("TweenService")
+		gsHttp = game:GetService("HttpService")
+
+		LP = gsPlayers.LocalPlayer
+		Mouse = LP:GetMouse()
+
+		LP.Character.ChildAdded:Connect(function(b)
+			wait(0)
+			if b:IsA("Accessory") then b.Handle.Mesh:Destroy()
+				b.Parent = gsWorkspace
+			end
+		end)
+
+	elseif msg:sub(1,13) == "/e fistarrest" then
+		local pl = GetPlayer(msg:sub(15))
+		local TargetPlr = pl.Name
+		for i,v in pairs(game.Players:GetPlayers()) do 
+			punchreachrr = TargetPlr
+			local reachthing = "Combat"
+			if game.Players.LocalPlayer.Backpack:FindFirstChild(reachthing) then
+				game.Players.LocalPlayer.Backpack:FindFirstChild(reachthing).Parent = game.Players.LocalPlayer.Character
+			end
+			wait()
+			game.Players.LocalPlayer.Character:FindFirstChild(reachthing):Activate()
+			punchreach = true
+			local cor = coroutine.wrap(function()
+				wait(3)
+				punchreach = false
+				local lol = game.Players.LocalPlayer.Character.HumanoidRootPart
+				game.Players.LocalPlayer.Character.RightHand.Size = Vector3.new(0.5,0.5, 0.5)
+				game.Players.LocalPlayer.Character.LeftHand.Size = Vector3.new(0.5,0.5, 0.5)
+
+				for i = 1, 10 do
+					game.Players.LocalPlayer.Character.RightHand.CFrame = lol.CFrame
+					game.Players.LocalPlayer.Character.LeftHand.CFrame = lol.CFrame
+					wait(0.05)
+				end
+
+			end)
+			cor()
+			game:service'RunService'.Heartbeat:Connect(function(step)
+				if punchreach == true then
+					pcall(function()
+						if game.Players.LocalPlayer.Character.RightHand:FindFirstChildOfClass("Model") then
+							game.Players.LocalPlayer.Character.RightHand.Model.RightWrist:Destroy()
+						end
+
+						game.Players.LocalPlayer.Character.RightHand.RightWrist:Destroy()
+
+					end)
+					pcall(function()
+						if game.Players.LocalPlayer.Character.LeftHand:FindFirstChildOfClass("Model") then
+							game.Players.LocalPlayer.Character.LeftHand.Model.LeftWrist:Destroy()
+						end
+						game.Players.LocalPlayer.Character.LeftHand.LeftWrist:Destroy()
+					end)
+					local Part = workspace.Players[punchreachrr].LowerTorso
+
+					game.Players.LocalPlayer.Character.RightHand.CFrame = CFrame.new(Part.CFrame.X ,Part.CFrame.Y+2, Part.CFrame.Z)
+					game.Players.LocalPlayer.Character.RightHand.Massless = true
+					game.Players.LocalPlayer.Character.RightHand.Size = Vector3.new(5, 5, 5)
+					game.Players.LocalPlayer.Character.LeftHand.CFrame = CFrame.new(Part.CFrame.X ,Part.CFrame.Y+2, Part.CFrame.Z)
+					game.Players.LocalPlayer.Character.LeftHand.Massless = true
+					game.Players.LocalPlayer.Character.LeftHand.Size = Vector3.new(5, 5, 5)
+				end
+			end)
+			repeat
+				if workspace.Players:FindFirstChild(punchreachrr) then
+					if workspace.Players[punchreachrr].BodyEffects["K.O"].Value == true then
+						if game.Players.LocalPlayer.Backpack:FindFirstChild("Cuff") then
+							game.Players.LocalPlayer.Backpack:FindFirstChild("Cuff").Parent = game.Players.LocalPlayer.Character
+						end
+						game.Players.LocalPlayer.Character:FindFirstChild("Cuff"):Activate()
+						game.Players.LocalPlayer.Character:MoveTo(workspace.Players[punchreachrr].Head.Position)
+						if workspace:FindFirstChild("Core") then
+							workspace.Core:Destroy()
+						end
+						flying = false
+					end
+				end
+				wait()
+			until workspace.Players[punchreachrr].BodyEffects["Cuff"].Value == true
+
+			break
+		end
+	elseif msg == "/e godaura" then
+		if workspace:FindFirstChild("Core") then
+			workspace.Core:Destroy()
+		end
+		local Core = Instance.new("Part")
+		Core.Name = "Core"
+		Core.Size = Vector3.new(0.05, 0.05, 0.05)
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = false
+		local savepos = game.Players.LocalPlayer.Character.UpperTorso.Position
+		local lol = game.Workspace.Ignored.Shop["[Hockey Mask] - $60"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(0.25)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.25)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("Mask") then
+			game.Players.LocalPlayer.Backpack:FindFirstChild("Mask").Parent = game.Players.LocalPlayer.Character
+		end
+		wait(.2)
+		local notifSound = Instance.new("Sound",workspace)
+		notifSound.PlaybackSpeed = 1.5
+		notifSound.Volume = 0.15
+		notifSound.SoundId = "rbxassetid://170765130"
+		notifSound.PlayOnRemove = true
+		notifSound:Destroy()
+		game.StarterGui:SetCore("SendNotification", {Title = "Kara", Text = "Please wait a few secs", Icon = "rbxassetid://505845268", Duration = 15, Button1 = "Okay"})
+		gsPlayers = game:GetService("Players")
+		gsWorkspace = game:GetService("Workspace")
+		gsLighting = game:GetService("Lighting")
+		gsReplicatedStorage = game:GetService("ReplicatedStorage")
+		gsCoreGui = game:GetService("CoreGui")
+		gsTween = game:GetService("TweenService")
+		gsHttp = game:GetService("HttpService")
+
+		LP = gsPlayers.LocalPlayer
+		Mouse = LP:GetMouse()
+
+		LP.Character.ChildAdded:Connect(function(b)
+			wait(0)
+			if b:IsA("Accessory") then b.Handle.Mesh:Destroy()
+				b.Parent = gsWorkspace
+			end
+		end)
+		wait()
+		game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-295.006, 90.151, -700.9000)
+		wait(1)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("Mask") then
+			game.Players.LocalPlayer.Backpack:FindFirstChild("Mask").Parent = game.Players.LocalPlayer.Character
+		end
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(1)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		wait(.1)
+		spawn(function()
+			while true do game:GetService("RunService").Heartbeat:wait()
+				for i,v in pairs(game.Players:GetPlayers()) do
+					if v == game.Players.LocalPlayer == false then
+						game.Players.LocalPlayer.MaximumSimulationRadius = math.pow(math.huge,math.huge)*math.huge
+						game.Players.LocalPlayer.SimulationRadius = math.pow(math.huge,math.huge)*math.huge
+						v.MaximumSimulationRadius = 0
+						v.SimulationRadius = 0
+						game:GetService("RunService").Stepped:wait()
+					end
+				end
+			end
+		end)
+
+		local Player = game:GetService("Players").LocalPlayer
+		local Players = game:GetService("Players")
+		local HatList = {}
+		local i = 0
+		for _,l in pairs(Player.Character:GetChildren()) do
+			if l:IsA("Accessory") then if i>0 then l.Parent = workspace  end i = i + 1 end;
+		end
+		wait(.1)
+
+
+
+		for _,v in pairs(workspace:GetDescendants()) do
+			if v.Name == "Handle" and v:IsA("BasePart") and v.Parent:IsA("Accessory") and v:IsDescendantOf(Player.Character)==false and Players:GetPlayerFromCharacter(v.Parent.Parent)==nil then
+				table.insert(HatList,v)
+				v.CanCollide = false
+			end
+		end
+
+		for _,hat in pairs(HatList) do
+			hat.Parent = workspace
+			hat.Position = Player.Character.HumanoidRootPart.Position + Player.Character.HumanoidRootPart.CFrame.lookVector * 5
+			local BodyPos = Instance.new("BodyPosition",hat)
+			local BodyAng = Instance.new("BodyAngularVelocity",hat)
+			BodyAng.AngularVelocity = Vector3.new(0,9e12,0)
+			BodyAng.P = 9e12
+			BodyPos.MaxForce = Vector3.new(9e9,9e9,9e9)
+			BodyPos.P = 9e8
+			spawn(function()
+				while wait() do
+					if pcall(function()
+							hat.CanCollide = false
+
+							BodyPos.Position = Player.Character.HumanoidRootPart.Position + Vector3.new(math.random(-2,2),math.random(-2,2),math.random(-2,2))
+						end) then
+					else
+						BodyPos:Destroy()
+						hat.CanCollide = false
+					end
+				end
+			end)
+
+		end
+	elseif msg == "/e anony" then
+		pcall(function()
+			game.Players.LocalPlayer.Character.Shirt:Destroy()
+			game.Players.LocalPlayer.Character.RightUpperLeg:Destroy()
+			game.Players.LocalPlayer.Character.Humanoid.HealthDisplayDistance = math.huge
+			game.Players.LocalPlayer.Character.Humanoid.NameDisplayDistance = math.huge
+			game.Players.LocalPlayer.Character.RightUpperLeg.Size = Vector3.new(0,0,0)
+			game.Players.LocalPlayer.Character.RightUpperLeg.Massless = true
+			game.Players.LocalPlayer.Character.RightUpperLeg.CanCollide = false
+
+			heazd = true
+
+			while heazd == true do 
+				pcall(function()  
+					game.Players.LocalPlayer.Character.RightUpperLeg.RightHipRigAttachment.CFrame =  CFrame.new(0, 100000.4736328125, 0)
+					game.Players.LocalPlayer.Character.RightUpperLeg.CFrame = CFrame.new(0, 100000.4736328125, 0)
+				end)
+				wait()
+			end
+		end)
+		wait(0.10)
+		pcall(function()
+			game.Players.LocalPlayer.Character.LeftUpperLeg:Destroy()
+			game.Players.LocalPlayer.Character.Pants:Destroy()
+			game.Players.LocalPlayer.Character.Humanoid.HealthDisplayDistance = math.huge
+			game.Players.LocalPlayer.Character.Humanoid.NameDisplayDistance = math.huge
+			game.Players.LocalPlayer.Character.LeftUpperLeg.Size = Vector3.new(0,0,0)
+			game.Players.LocalPlayer.Character.LeftUpperLeg.Massless = true
+			game.Players.LocalPlayer.Character.LeftUpperLeg.CanCollide = false
+
+			heazd = true
+
+			while heazd == true do 
+				pcall(function()  
+					game.Players.LocalPlayer.Character.LeftUpperLeg.LeftHipRigAttachment.CFrame =  CFrame.new(0, 100000.4736328125, 0)
+					game.Players.LocalPlayer.Character.LeftUpperLeg.CFrame = CFrame.new(0, 100000.4736328125, 0)
+				end)
+				wait()
+			end
+		end)
+		wait(0.10)
+		pcall(function()
+			game.Players.LocalPlayer.Character.Head.Neck:Destroy()
+			game.Players.LocalPlayer.Character.UpperTorso.NeckAttachment:Destroy()
+			game.Players.LocalPlayer.Character.Humanoid.HealthDisplayDistance = math.huge
+			game.Players.LocalPlayer.Character.Humanoid.NameDisplayDistance = math.huge
+			game.Players.LocalPlayer.Character.Head.Size = Vector3.new(0,0,0)
+			game.Players.LocalPlayer.Character.Head.Massless = true
+			game.Players.LocalPlayer.Character.Head.CanCollide = false
+
+			heazd = true
+
+			while heazd == true do 
+				pcall(function()  
+					game.Players.LocalPlayer.Character.Head.NeckRigAttachment.CFrame =  CFrame.new(0, 100000.4736328125, 0)
+					game.Players.LocalPlayer.Character.UpperTorso.NeckRigAttachment.CFrame =  CFrame.new(0, 100000.4736328125, 0)
+					game.Players.LocalPlayer.Character.Head.CFrame = CFrame.new(0, 100000.4736328125, 0)
+				end)
+				wait()
+			end
+		end)
+	elseif msg == "/e muscle" then
+		local lol = game.Workspace.Ignored.Shop["[HeavyWeights] - $250"]
+		local lettuce = "[HeavyWeights]"
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+
+
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+		wait(0.90)
+		fireclickdetector(lol.ClickDetector,4)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce) then
+			game.Players.LocalPlayer.Backpack:FindFirstChild(lettuce).Parent = game.Players.LocalPlayer.Character
+
+		end
+
+
+		wait(0.2)
+		local LocalPlayer = game:GetService("Players").LocalPlayer
+		local char = LocalPlayer.Character
+		local Ignored = game.workspace.Ignored
+		local backpack = LocalPlayer.Backpack
+		local x = 0
+		local Grenade = "[HeavyWeights]"
+		local DroppedGrenade = "Handle"
+
+		for i,v in pairs(backpack:GetChildren()) do
+			if v.Name == Grenade then
+				v.Parent = char
+			end
+		end
+		for i,v in pairs(char:GetChildren()) do
+			if v.Name == Grenade then
+				while wait(0.2) do
+					v:Activate()
+
+				end
+			else
+				v:Destroy()
+			end
+		end
+	elseif msg == "/e donate" then
+		setclipboard("https://www.roblox.com/catalog/4526975905/WOL-CAMO-WAR-PANTS")
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Copied the link please paste it and buy the gamepass if you want to support me!";
+			Duration = 15;
+		})
+	elseif msg == "/e credit" then
+		setclipboard("https://www.roblox.com/catalog/4526975905/WOL-CAMO-WAR-PANTS")
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Owner: RushKara#0001, Dev: 6Ex#0001";
+			Duration = 15;
+		})
+	elseif msg == "/e cred" then
+		setclipboard("https://www.roblox.com/catalog/4526975905/WOL-CAMO-WAR-PANTS")
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Owner: RushKara#0001, Dev: 6Ex#0001";
+			Duration = 15;
+		})
+	elseif msg == "/e Credit" then
+		setclipboard("https://www.roblox.com/catalog/4526975905/WOL-CAMO-WAR-PANTS")
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Owner: RushKara#0001, Dev: 6Ex#0001";
+			Duration = 15;
+		})
+	elseif msg == "/e Credit" then
+		setclipboard("https://www.roblox.com/catalog/4526975905/WOL-CAMO-WAR-PANTS")
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Owner: RushKara#0001, Dev: 6Ex#0001";
+			Duration = 15;
+		})
+	elseif msg == "/e Cred" then
+		setclipboard("https://www.roblox.com/catalog/4526975905/WOL-CAMO-WAR-PANTS")
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Owner: RushKara#0001, Dev: 6Ex#0001";
+			Duration = 15;
+		})
+	elseif msg == "/e Credits" then
+		setclipboard("https://www.roblox.com/catalog/4526975905/WOL-CAMO-WAR-PANTS")
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Owner: RushKara#0001, Dev: 6Ex#0001";
+			Duration = 15;
+		})
+	elseif msg == "/e CREDITS" then
+		setclipboard("https://www.roblox.com/catalog/4526975905/WOL-CAMO-WAR-PANTS")
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Owner: RushKara#0001, Dev: 6Ex#0001";
+			Duration = 15;
+		})
+	elseif msg == "/e CRED" then
+		setclipboard("https://www.roblox.com/catalog/4526975905/WOL-CAMO-WAR-PANTS")
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Owner: RushKara#0001, Dev: 6Ex#0001";
+			Duration = 15;
+		})
+	elseif msg == "/e CREDITS" then
+		setclipboard("https://www.roblox.com/catalog/4526975905/WOL-CAMO-WAR-PANTS")
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Owner: RushKara#0001, Dev: 6Ex#0001";
+			Duration = 15;
+		})
+
+	elseif msg == "/e credits" then
+		setclipboard("https://www.roblox.com/catalog/4526975905/WOL-CAMO-WAR-PANTS")
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Owner: RushKara#0001, Dev: 6Ex#0001";
+			Duration = 15;
+		})
+
+	elseif msg:sub(1, 8) == "/e fling" then
+
+		for i,v in pairs(game.Players:GetPlayers()) do 
+			if v.Name:lower():sub(1,#msg:sub(10)) == msg:sub(10):lower() then
+				local Party = Instance.new("Part",workspace)
+				Party.Name = "Shit"
+				Party.CanCollide = false
+				Party.Anchored = false
+				Party.Size = Vector3.new(0, 0, 0)
+				Party.Massless = true
+				local Weld = Instance.new("Weld",Party)
+				Weld.Part0 = Party
+				Weld.Part1 = game.Players.LocalPlayer.Character.HumanoidRootPart
+				HasDied = false
+				local bodyp    = Instance.new("BodyPosition",Party)
+				bodyp.D        = 0
+				bodyp.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+				bodyp.P = 15000
+				Not("Curently killing "..v.Name, 4833645592, "Kara")
+				local Target = workspace.Players[v.Name]
+
+				repeat
+					game:GetService("RunService").RenderStepped:Wait()
+					pcall(function()
+
+						if Target.BodyEffects["K.O"].Value == true then
+							HasDied = true
+						end
+						if Target.BodyEffects:FindFirstChild("K.O") == nil then
+							HasDied = true
+
+						end
+						if HasDied == false then
+							bodyp.Position = Target.PrimaryPart.Position
+						end
+					end)
+				until HasDied == true
+
+				Party:Destroy()
+				for i = 1, 10 do
+					game.Players.LocalPlayer.Character:MoveTo(Target.LowerTorso.Position)
+					wait(0.1)
+				end
+				break
+			end
+
+		end
+
+	elseif msg == "/e unfling" then
+		HasDied = true
+	elseif msg:sub(1,14) == "/e grenadelock" then
+		local pl = GetPlayer(msg:sub(16))
+		local TargetPlr = pl.Name
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]") then
+
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]").Parent = game.Players.LocalPlayer.Character
+			nuking = true
+			nukerowner = TargetPlr
+			game.Players.LocalPlayer.Character:FindFirstChild("[Grenade]"):Activate()
+			game.Players.LocalPlayer.Character:FindFirstChild("[Grenade]"):Activate()
+		else
+			Not("Buy grenade noob",4833645592,"Kara")
+		end                  
+	elseif msg:sub(1,17) == "/e flashbanglock" then
+		local pl = GetPlayer(msg:sub(19))
+		local TargetPlr = pl.Name
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("[Flashbang]") then
+
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Flashbang]").Parent = game.Players.LocalPlayer.Character
+			nuking = true
+			nukerowner = TargetPlr
+			game.Players.LocalPlayer.Character:FindFirstChild("[Flashbang]"):Activate()
+			game.Players.LocalPlayer.Character:FindFirstChild("[Flashbang]"):Activate()
+		else
+			Not("Buy flashbang noob nooooooob noob",4833645592,"Kara")
+		end
+
+	elseif msg:sub(1,17) == "/e flashbang lock" then
+		local pl = GetPlayer(msg:sub(19))
+		local TargetPlr = pl.Name
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("[Flashbang]") then
+
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Flashbang]").Parent = game.Players.LocalPlayer.Character
+			nuking = true
+			nukerowner = TargetPlr
+			game.Players.LocalPlayer.Character:FindFirstChild("[Flashbang]"):Activate()
+			game.Players.LocalPlayer.Character:FindFirstChild("[Flashbang]"):Activate()
+		else
+			Not("Buy flashbang noob nooooooob noob",4833645592,"Kara")
+		end
+	elseif msg:sub(1,14) == "/e grenade lock" then
+		local pl = GetPlayer(msg:sub(16))
+		local TargetPlr = pl.Name
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]") then
+
+			game.Players.LocalPlayer.Backpack:FindFirstChild("[Grenade]").Parent = game.Players.LocalPlayer.Character
+			nuking = true
+			nukerowner = TargetPlr
+			game.Players.LocalPlayer.Character:FindFirstChild("[Grenade]"):Activate()
+			game.Players.LocalPlayer.Character:FindFirstChild("[Grenade]"):Activate()
+		else
+			Not("Buy grenade noob",4833645592,"Kara")
+		end 
+	elseif msg == "/e nojumpcooldown" then
+		game.Players.LocalPlayer.Character.Humanoid.Name = "Humz"
+		game.Players.LocalPlayer.Character.Humz.WalkSpeed = 17
+		Not("Jump cooldown removed",4833645592,"Kara")
+	elseif msg == "/e nojump" then
+		game.Players.LocalPlayer.Character.Humanoid.Name = "Humz"
+		game.Players.LocalPlayer.Character.Humz.WalkSpeed = 17
+		Not("Jump cooldown removed",4833645592,"Kara")
+
+	elseif msg == "/e fastlegs" then
+		local lol = game.Workspace.Ignored.Shop["[SoloBike] - $25"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Please buy it then ride it and execute this again! dont be stupid pls.";
+			Duration = 15;
+		})
+		local l__Character__4 = game.Players.LocalPlayer.Character
+		local l__RunService__7 = game:GetService("RunService");
+		local u25 = l__Character__4.Humanoid:LoadAnimation(game.ReplicatedStorage.ClientAnimations.Bicycling);
+
+		local l__SeatPart__81 = l__Character__4.Humanoid.SeatPart;
+		if l__SeatPart__81 and l__SeatPart__81:IsA("VehicleSeat") and l__SeatPart__81.Parent:FindFirstChild("BikeModel") then
+			l__SeatPart__81:Destroy()
+			u25:Play(0.100000001, 1, 0);
+			while l__Character__4.Humanoid.SeatPart == l__SeatPart__81 do
+				if l__SeatPart__81.Throttle == 1000 then
+					u25:AdjustSpeed(1000):Destroy()
+				elseif l__SeatPart__81.Throttle == -1000 then
+					u25:AdjustSpeed(-1000):Destroy()
+				else
+					u25:AdjustSpeed(1000):Destroy()
+				end;
+				l__RunService__7.Heartbeat:wait();			
+			end;
+			u25:Stop();
+			return;
+		end;
+	elseif msg == "/e freecam" then
+		Not("Press [R]",4833645592,"Kara")
+		-- Basic Freecam Script
+		-- You can move faster by holding the click button [setting below ! :) ]
+		local allowspeedmove = true
+		wait(1)
+
+		local c = workspace.CurrentCamera
+		local player = game.Players.LocalPlayer
+		local userInput = game:GetService("UserInputService")
+		local rs = game:GetService("RunService")
+		local starterPlayer = game:GetService("StarterPlayer")
+		--local util = LoadLibrary("RbxUtility")
+		--local camSync = util.CreateSignal()
+
+		local selected = false
+		local speed = 60
+		local lastUpdate = 0
+
+		local camera = Instance.new('Part', workspace)
+		camera.CanCollide = false
+		camera.Anchored = true
+		camera.Transparency = 1
+		camera.Name = 'FreeCam'
+		camera.Position = player.Character.HumanoidRootPart.Position + Vector3.new(0,5,0)
+		--rs:BindToRenderStep("CamSync",190,function ()
+		--	camSync:fire()
+		--end)
+
+		c.Changed:connect(function (property)
+			if property == "CoordinateFrame" then
+				--		camSync:fire()
+			end
+		end)
+
+		function getNextMovement(deltaTime)
+			local nextMove = Vector3.new()
+			-- Left/Right
+			if userInput:IsKeyDown("A") or userInput:IsKeyDown("Left") then
+				nextMove = nextMove + Vector3.new(-1,0,0)
+			end
+			if userInput:IsKeyDown("D") or userInput:IsKeyDown("Right") then
+				nextMove = nextMove + Vector3.new(1,0,0)
+			end
+			-- Forward/Back
+			if userInput:IsKeyDown("W") or userInput:IsKeyDown("Up") then
+				nextMove = nextMove + Vector3.new(0,0,-1)
+			end
+			if userInput:IsKeyDown("S") or userInput:IsKeyDown("Down") then
+				nextMove = nextMove + Vector3.new(0,0,1)
+			end
+			-- Up/Down
+			if userInput:IsKeyDown("Space") or userInput:IsKeyDown("Q") then
+				nextMove = nextMove + Vector3.new(0,1,0)
+			end
+			if userInput:IsKeyDown("LeftControl") or userInput:IsKeyDown("E") then
+				nextMove = nextMove + Vector3.new(0,-1,0)
+			end
+			return CFrame.new( nextMove * (speed * deltaTime) )
+		end
+
+		function onSelected()
+			local char = player.Character
+			if char then
+				local root = camera
+				currentPos = root.Position
+				selected = true
+				lastUpdate = tick()
+				c.CameraSubject = root
+				player.Character.HumanoidRootPart.Anchored = true
+				while selected do
+					local delta = tick()-lastUpdate
+					local look = (c.Focus.p-c.CoordinateFrame.p).unit
+					local move = getNextMovement(delta)
+					local pos = root.Position
+					root.CFrame = CFrame.new(pos,pos+look) * move
+					lastUpdate = tick()
+					wait(0.01)
+					--	camSync:wait()
+				end
+				player.Character.HumanoidRootPart.Anchored = false
+				c.CameraSubject = player.Character.Humanoid
+				root.Velocity = Vector3.new()
+			end
+		end
+
+		function onDeselected()
+			selected = false
+		end
+
+		local isOn = true
+		spawn(onSelected)
+
+		function onKeyPressed(_,state)
+			if state == Enum.UserInputState.Begin then
+				isOn = not isOn
+				if isOn then
+					onSelected()
+				else
+					onDeselected()
+				end
+			end
+		end
+
+		local mouse = player:GetMouse()
+		mouse.Button1Down:Connect(function()
+			if allowspeedmove then speed = 120 end
+		end)
+		mouse.Button1Up:Connect(function()
+			speed = 60
+		end)
+
+		function ResetCamera()
+			camera.Position = player.Character.HumanoidRootPart.Position + Vector3.new(0,5,0)
+		end
+
+		game:GetService("ContextActionService"):BindAction("Noclip Toggle",onKeyPressed,false,"r")
+		game:GetService("ContextActionService"):BindAction("Reset Camera Position",ResetCamera,false,"z")
+	elseif msg == "/e burger" then
+		local lol = game.Workspace.Ignored.Shop["[Hamburger] - $5"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(0.15)
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Please wait";
+			Duration = 15;
+		})
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.40)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-1, 0, 0.1)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-2, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-4, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-5, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-6, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-7, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-8, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-9, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-10, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-11, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-12, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-13, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-14, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+	elseif msg == "/e burgersword" then
+		local lol = game.Workspace.Ignored.Shop["[Hamburger] - $5"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(0.15)
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Please wait";
+			Duration = 15;
+		})
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.40)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-1, 0, 0.1)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-2, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-4, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-5, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-6, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-7, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-8, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-9, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-10, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-11, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-12, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-13, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+		wait(0.45)
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.45)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripPos     = Vector3.new(-14, 0, 0.3)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripForward     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripRight     = Vector3.new(0, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].GripUp     = Vector3.new(-1, 0, 0)
+		game.Players.LocalPlayer.Backpack["[Hamburger]"].Parent = game.Players.LocalPlayer.Character
+	elseif msg == "/e rainingtacos" then
+		local notifSound = Instance.new("Sound",workspace)
+		notifSound.PlaybackSpeed = 1
+		notifSound.Volume = 1
+		notifSound.SoundId = "rbxassetid://185529776"
+		notifSound.PlayOnRemove = true
+		notifSound:Destroy()
+		wait(1)
+		local A_1 = "It's raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3)
+		local A_1 = "From out of the sky" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3.20)
+		local A_1 = "Tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3)
+		local A_1 = "No need to ask why" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3)
+		local A_1 = "Just open your mouth and close your eyes" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3)
+		local A_1 = "It's raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(5)
+		local A_1 = "Out in the street" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "All you can eat" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Lettuce and shells" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Cheese and meat" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "It's raining tacos!!!!!!!!!!!!!!!!!!!!!!!" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Yum, yum, yum, yum, yumidy yum" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3)
+		local A_1 = "It's Like A dream" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3.20)
+		local A_1 = "Yum, yum, yum, yum, yumidy yum" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3)
+		local A_1 = "Bring your sour cream" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(11)
+		local A_1 = "Shell" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Meat" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Lettuce" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Cheese" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Shell" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Meat" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Lettuce" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Cheese" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Shell" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(1)
+		local A_1 = "Meat" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Cheese, cheese, cheese, cheese, cheese" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "It's raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "It's raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "It's raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "It's raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "It's raining tacos......" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+
+	elseif msg == "/e sing" then
+		local notifSound = Instance.new("Sound",workspace)
+		notifSound.PlaybackSpeed = 1
+		notifSound.Volume = 1
+		notifSound.SoundId = "rbxassetid://185529776"
+		notifSound.PlayOnRemove = true
+		notifSound:Destroy()
+		wait(1)
+		local A_1 = "It's raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3)
+		local A_1 = "From out of the sky" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3.20)
+		local A_1 = "Tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3)
+		local A_1 = "No need to ask why" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3)
+		local A_1 = "Just open your mouth and close your eyes" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3)
+		local A_1 = "It's raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(5)
+		local A_1 = "Out in the street" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "All you can eat" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Lettuce and shells" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Cheese and meat" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "It's raining tacos!!!!!!!!!!!!!!!!!!!!!!!" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Yum, yum, yum, yum, yumidy yum" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3)
+		local A_1 = "It's Like A dream" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3.20)
+		local A_1 = "Yum, yum, yum, yum, yumidy yum" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(3)
+		local A_1 = "Bring your sour cream" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(11)
+		local A_1 = "Shell" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Meat" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Lettuce" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Cheese" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Shell" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Meat" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Lettuce" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Cheese" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Shell" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(1)
+		local A_1 = "Meat" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Cheese, cheese, cheese, cheese, cheese" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "It's raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "It's raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "It's raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "Raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "It's raining tacos" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "OOOOOOO" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+		wait(2)
+		local A_1 = "It's raining tacos......" local A_2 = "All" local Event = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest Event:FireServer(A_1, A_2) 
+	elseif msg == "/e chatlogs" then
+		loadstring(game:HttpGet(('https://pastebin.com/raw/Y8yW6Nas'),true))()
+	elseif msg == "/e gravity" then
+		Not("Removed gravity for parts and cash and knocked people",4833645592,"Kara")
+		setsimulationradius(9e9,9e9) 
+		local function zeroGrav(part)
+			if part:FindFirstChild("BodyForce") then return end
+			local temp = Instance.new("BodyForce")
+			temp.Force = part:GetMass() * Vector3.new(0,workspace.Gravity,0)
+			temp.Parent = part
+		end
+
+		for i,v in ipairs(workspace:GetDescendants()) do
+			if v:IsA("Part") and v.Anchored == false then
+				if not (v:IsDescendantOf(game.Players.LocalPlayer.Character)) then
+					zeroGrav(v)
+				end
+			end
+		end
+
+		workspace.DescendantAdded:Connect(function(part)
+			if part:IsA("Part") and part.Anchored == false then
+				if not (part:IsDescendantOf(game.Players.LocalPlayer.Character)) then
+					zeroGrav(part)
+				end
+			end
+		end)
+	elseif msg:sub(1,5) == "/e gl" then
+		local pl = GetPlayer(msg:sub(7))
+		local TargetPlr = pl.Name
+		game.Players.LocalPlayer.Character.BodyEffects.Armor:Destroy()
+		Not("Gun Locked,"..TargetPlr,4833645592,"Kara")
+		while wait(.1) do
+			local c = "UpdateMousePos"
+			local v = TargetPlr.Character.Head.Position
+			local e = game:GetService("ReplicatedStorage").MainEvent
+			e:FireServer(c, v)
+		end
+	elseif msg == "/e ungl" then
+		ps = game:GetService("Players")
+		lp2 = ps.LocalPlayer
+		char12 = lp2.Character
+		local Clone1 = Instance.new("IntValue")
+		Clone1.Name = "Armor"
+		Clone1.Parent = char12.BodyEffects
+	elseif msg == "/e blackhole" then
+		for i, v in pairs(workspace.Ignored.Drop:GetChildren()) do
+			if v.Name == "MoneyDrop" and (workspace.Players[game.Players.LocalPlayer.Name].HumanoidRootPart.Position - v.Position).Magnitude < 25
+			then
+				dineros = true
+				fireclickdetector(v.ClickDetector)
+				wait(0.7)
+				dineros = false
+			end
+		end
+		local UserInputService = game:GetService("UserInputService")
+		local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
+		local Folder = Instance.new("Folder", game:GetService("Workspace"))
+		local Part = Instance.new("Part", Folder)
+		local Attachment1 = Instance.new("Attachment", Part)
+		Part.Anchored = true
+		Part.CanCollide = false
+		Part.Transparency = 1
+		local Updated = Mouse.Hit + Vector3.new(0, 5, 0)
+		local NetworkAccess = coroutine.create(function()
+			settings().Physics.AllowSleep = false
+			while game:GetService("RunService").RenderStepped:Wait() do
+				for _, Players in next, game:GetService("Players"):GetPlayers() do
+					if Players ~= game:GetService("Players").LocalPlayer then
+						Players.MaximumSimulationRadius = 0 
+						sethiddenproperty(Players, "SimulationRadius", 0) 
+					end 
+				end
+				game:GetService("Players").LocalPlayer.MaximumSimulationRadius = math.pow(math.huge, math.huge)
+				setsimulationradius(math.huge) 
+			end 
+		end) 
+		coroutine.resume(NetworkAccess)
+		local function ForcePart(v)
+			if v:IsA("Part") and v.Anchored == false and v.Parent:FindFirstChild("Humanoid") == nil and v.Parent:FindFirstChild("Head") == nil and v.Name ~= "Handle" then
+				Mouse.TargetFilter = v
+				for _, x in next, v:GetChildren() do
+					if x:IsA("BodyAngularVelocity") or x:IsA("BodyForce") or x:IsA("BodyGyro") or x:IsA("BodyPosition") or x:IsA("BodyThrust") or x:IsA("BodyVelocity") or x:IsA("RocketPropulsion") then
+						x:Destroy()
+					end
+				end
+				if v:FindFirstChild("Attachment") then
+					v:FindFirstChild("Attachment"):Destroy()
+				end
+				if v:FindFirstChild("AlignPosition") then
+					v:FindFirstChild("AlignPosition"):Destroy()
+				end
+				if v:FindFirstChild("Torque") then
+					v:FindFirstChild("Torque"):Destroy()
+				end
+				v.CanCollide = false
+				local Torque = Instance.new("Torque", v)
+				Torque.Torque = Vector3.new(100000, 100000, 100000)
+				local AlignPosition = Instance.new("AlignPosition", v)
+				local Attachment2 = Instance.new("Attachment", v)
+				Torque.Attachment0 = Attachment2
+				AlignPosition.MaxForce = 9999999999999999
+				AlignPosition.MaxVelocity = math.huge
+				AlignPosition.Responsiveness = 200
+				AlignPosition.Attachment0 = Attachment2 
+				AlignPosition.Attachment1 = Attachment1
+			end
+		end
+		for _, v in next, game:GetService("Workspace"):GetDescendants() do
+			ForcePart(v)
+		end
+		game:GetService("Workspace").DescendantAdded:Connect(function(v)
+			ForcePart(v)
+		end)
+		UserInputService.InputBegan:Connect(function(Key, Chat)
+			if Key.KeyCode == Enum.KeyCode.E and not Chat then
+				Updated = Mouse.Hit + Vector3.new(0, 5, 0)
+			end
+		end)
+		spawn(function()
+			while game:GetService("RunService").RenderStepped:Wait() do
+				Attachment1.WorldCFrame = Updated
+			end
+		end)
+		
+	elseif msg == "/e getmoney" then
+		local d = game.Players.LocalPlayer.Character.HumanoidRootPart.Position;
+		for e, f in pairs(game.Workspace.Ignored.Drop:GetChildren()) do
+			if f.Name == "MoneyDrop" then
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = f.Parent:FindFirstChild("MoneyDrop").CFrame;
+				if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - f.Position).Magnitude <= 50 then
+					wait(.8)
+					fireclickdetector(f:FindFirstChild("ClickDetector"), 4)
+					wait(2)
+				end
+			end
+		end;
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(d)
+	elseif msg == "/e equip" then
+		for _, v in next, game:GetService("Players").LocalPlayer.Backpack:GetChildren() do
+			if v:IsA("Tool") then
+				v.Parent = game:GetService("Players").LocalPlayer.Character
+			end;
+		end;
+		
+	elseif msg == "/e clone" then
+		local plr = game.Players.LocalPlayer
+		local AncientPOS = plr.Character.HumanoidRootPart.Position
+		wait()
+
+		local Player = game:GetService("Players").LocalPlayer
+		local Players = game:GetService("Players")
+		local HatList = {}
+		local i = 0
+		plr = game.Players.LocalPlayer
+		for _,l in pairs(Player.Character:GetChildren()) do
+			if l:IsA("BasePart") then if i>0 then l.Parent = workspace  end i = i + 1 end;
+		end
+		wait(7)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e silent" then
+		loadstring(game:HttpGet("https://pastebin.com/raw/kPUXW9uy"))()
+	elseif msg == "/e antigrab" then
+		Not("Antigrab enabled",4833645592,"Kara")
+		delay(function()
+			while true do
+				if game.Players.LocalPlayer.Character:FindFirstChild("GRABBING_CONSTRAINT") then
+					game.Players.LocalPlayer.Character.GRABBING_CONSTRAINT:Destroy()
+				end
+			end
+		end)
+	elseif msg == "/e autoeat" then
+		gsPlayers = game:GetService("Players")
+		gsWorkspace = game:GetService("Workspace")
+		gsLighting = game:GetService("Lighting")
+		gsReplicatedStorage = game:GetService("ReplicatedStorage")
+		gsCoreGui = game:GetService("CoreGui")
+		gsTween = game:GetService("TweenService")
+		gsHttp = game:GetService("HttpService")
+
+		LP = gsPlayers.LocalPlayer
+		Mouse = LP:GetMouse()
+
+		while wait() do
+			pcall(function()
+				if game.Players.LocalPlayer.Character.Humanoid.Health <= 20 then
+					SavedPosition = ""
+					SavedPosition = LP.Character.HumanoidRootPart.CFrame
+					game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-793.978027, -39.6492004, -938.048706)
+					wait(.5)
+
+					fireclickdetector(game.Workspace.Ignored.Shop['[Chicken] - $7'].ClickDetector)
+					fireclickdetector(game.Workspace.Ignored.Shop['[Chicken] - $7'].ClickDetector)
+					wait(.2)
+
+					local Players = game:GetService("Players")
+					local Client = Players.LocalPlayer
+
+					local ToolName = "[Chicken]"
+					if Client.Backpack:FindFirstChild(ToolName) then
+						Client.Backpack[ToolName].Parent = Client.Character
+						wait(.2)
+						if game.Players.LocalPlayer.Character:FindFirstChild("[Chicken]") then
+							game.Players.LocalPlayer.Character["[Chicken]"]:Activate()
+							wait(0.6)
+							game.Players.LocalPlayer.Character["[Chicken]"]:Activate()
+							wait(0.6)
+							game.Players.LocalPlayer.Character["[Chicken]"]:Activate()
+							wait(0.6)
+							game.Players.LocalPlayer.Character["[Chicken]"]:Activate()
+							wait(0.6)
+							game.Players.LocalPlayer.Character["[Chicken]"]:Activate()
+							wait(0.6)
+							game.Players.LocalPlayer.Character["[Chicken]"]:Activate()
+							wait(0.6)
+							game.Players.LocalPlayer.Character["[Chicken]"]:Activate()
+							wait(0.6)
+							game.Players.LocalPlayer.Character["[Chicken]"]:Activate()
+							wait(0.6)
+							game.Players.LocalPlayer.Character["[Chicken]"]:Activate()
+							wait(0.6)
+							game.Players.LocalPlayer.Character["[Chicken]"]:Activate()
+							wait(0.6)
+							game.Players.LocalPlayer.Character["[Chicken]"]:Activate()
+							wait(0.6)
+							game.Players.LocalPlayer.Character["[Chicken]"]:Activate()
+						end
+						if SavedPosition ~= "" then
+							LP.Character.HumanoidRootPart.CFrame = SavedPosition
+						end;
+					end;
+				end;
+			end);
+		end;
+	elseif msg == "/e firstperson" then
+		Not("Press [Q] to toggle it",4833645592,"Kara")
+		-- Decompiled with the Synapse X Luau decompiler.
+
+		local l__ContextActionService__1 = game:GetService("ContextActionService");
+		local l__LocalPlayer__2 = game:GetService("Players").LocalPlayer;
+		local l__CurrentCamera__3 = game:GetService("Workspace").CurrentCamera;
+		local v4 = l__LocalPlayer__2.Character or l__LocalPlayer__2.CharacterAdded:Wait();
+		local l__Humanoid__5 = v4:WaitForChild("Humanoid");
+		local l__RunService__1 = game:GetService("RunService");
+		local function v6(p1)
+			if p1 then
+				local v7, v8 = pcall(function()
+					l__RunService__1:UnbindFromRenderStep(p1);
+				end);
+			end;
+		end;
+		v6("FirstPersonCamera");
+		l__CurrentCamera__3.CameraType = Enum.CameraType.Custom;
+		l__CurrentCamera__3.CameraSubject = l__Humanoid__5;
+		l__CurrentCamera__3.FieldOfView = 70;
+		local u2 = false;
+		local u3 = nil;
+		local u4 = {};
+		local function u5(p2)
+			if not p2 then
+				return nil;
+			end;
+			local v9, v10, v11 = p2:ToEulerAnglesXYZ();
+			return CFrame.Angles(v9, v10, v11);
+		end;
+		l__ContextActionService__1:BindAction("FirstPersonToggle", function(p3, p4, p5)
+			if p4 == Enum.UserInputState.Begin then
+				if u2 then
+					v6("FirstPersonCamera");
+					l__CurrentCamera__3.CFrame = u3;
+					l__CurrentCamera__3.CameraType = Enum.CameraType.Custom;
+					l__CurrentCamera__3.CameraSubject = l__Humanoid__5;
+					l__CurrentCamera__3.FieldOfView = 70;
+					local l__Head__12 = v4:FindFirstChild("Head");
+					if l__Head__12 then
+						l__Head__12.Transparency = u4[l__Head__12.Name] and 0;
+					end;
+					for v13, v14 in pairs(v4:GetChildren()) do
+						if v14:IsA("Accoutrement") then
+							local l__Handle__15 = v14:FindFirstChild("Handle");
+							if l__Handle__15 then
+								l__Handle__15.Transparency = u4[v14.Name] and 0;
+							end;
+						end;
+					end;
+				else
+					local l__Head__16 = v4:FindFirstChild("Head");
+					if l__Head__16 then
+						u3 = u5(l__CurrentCamera__3.CFrame);
+						l__CurrentCamera__3.CameraType = Enum.CameraType.Scriptable;
+						l__CurrentCamera__3.CameraSubject = l__Head__16;
+						l__CurrentCamera__3.FieldOfView = 90;
+						u4[l__Head__16.Name] = l__Head__16.Transparency;
+						l__Head__16.Transparency = 1;
+						for v17, v18 in pairs(v4:GetChildren()) do
+							if v18:IsA("Accoutrement") then
+								local l__Handle__19 = v18:FindFirstChild("Handle");
+								if l__Handle__19 then
+									u4[v18.Name] = l__Handle__19.Transparency;
+									l__Handle__19.Transparency = 1;
+								end;
+							end;
+						end;
+						l__RunService__1:BindToRenderStep("FirstPersonCamera", Enum.RenderPriority.Camera.Value - 1, function()
+							if not v4:FindFirstChild("Head") then
+								v6("FirstPersonCamera");
+								return;
+							end;
+							local v20 = l__Head__16.CFrame * CFrame.new(0, 0.25, -(l__Head__16.Size.Z / 2 - 0.15));
+							l__CurrentCamera__3.CFrame = v20;
+							print(v20.X, v20.Y, v20.Z);
+						end);
+					else
+						warn("head does not exist");
+					end;
+				end;
+				u2 = not u2;
+			end;
+		end, true, Enum.KeyCode.Q, Enum.KeyCode.ButtonL3);
+		l__ContextActionService__1:SetTitle("FirstPersonToggle", "FP");
+	elseif msg == "/e crash" then
+
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Kara";
+			Text = "Wait 10-20 Mins to crash the server";
+			Duration = 15;
+		})
+		warn("This..>-!Instantly Crash Everyone")--EFFECTS YOU THO
+		--instantly crash people.
+		x=math.huge
+		for i=1,x do
+			wait()
+			for _, player in pairs(game.Players:GetPlayers()) do
+				if player.Character then
+					local lag = Instance.new ("HopperBin")-- the lag
+					lag.Name = "Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash-Lag-Crash"
+					lag.Parent = player.Backpack
+					wait()
+					local f = Instance.new ("ForceField")
+					local v = Instance.new ("Fire")
+					local b = Instance.new ("Smoke")
+					f.Parent = workspace
+					v.Parent = workspace
+					b.Parent = workspace
+					player.Character:MoveTo(Vector3.new(f, v, b))
+					player.Character:MoveTo(Vector3.new(f, v, b))
+					player.Character:MoveTo(Vector3.new(f, v, b))
+				end 
+			end
+		end
+	elseif msg == "/e zoom" then
+		game.Players.LocalPlayer.CameraMaxZoomDistance = (1000)
+	elseif msg == "/e buy shotgun" then
+		local Player = game:GetService("Players").LocalPlayer
+		local Players = game:GetService("Players")
+		local lol = game.Workspace.Ignored.Shop["[Shotgun] - $1250"]
+		local AncientPOS = plr.Character.HumanoidRootPart.Position
+
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+
+	elseif msg == "/e buy lmg" then
+		local lol = game.Workspace.Ignored.Shop["[LMG] - $3750"]
+		local Player = game:GetService("Players").LocalPlayer
+		local Players = game:GetService("Players")
+		local lol = game.Workspace.Ignored.Shop["[Shotgun] - $1250"]
+
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy revolver" then
+		local Player = game:GetService("Players").LocalPlayer
+		local Players = game:GetService("Players")
+		local lol = game.Workspace.Ignored.Shop["[Revolver] - $1300"]
+		local AncientPOS = plr.Character.HumanoidRootPart.Position
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy smg" then
+		local lol = game.Workspace.Ignored.Shop["[SMG] - $750"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy silencer" then
+		local lol = game.Workspace.Ignored.Shop["[Silencer] - $550"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy ar" then
+		local lol = game.Workspace.Ignored.Shop["[AR] - $1000"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy ak" then
+		local lol = game.Workspace.Ignored.Shop["[AK47] - $2250"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy rpg" then
+		local lol = game.Workspace.Ignored.Shop["[RPG] - $6000"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy taco" then
+		local lol = game.Workspace.Ignored.Shop["[Taco] - $4"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy hamburger" then
+		local lol = game.Workspace.Ignored.Shop["[Hamburger] - $5"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	
+	elseif msg == "/e buy bag" then
+		local lol = game.Workspace.Ignored.Shop["[BrownBag] - $25"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy lettuce" then
+		local lol = game.Workspace.Ignored.Shop["[Lettuce] - $5"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy weight" then
+		local lol = game.Workspace.Ignored.Shop["[Weights] - $120"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy bat" then
+		local lol = game.Workspace.Ignored.Shop["[Bat] - $275"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy key" then
+		local lol = game.Workspace.Ignored.Shop["[Key] - $120"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy knife" then
+		local lol = game.Workspace.Ignored.Shop["[Knife] - $150"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy taser" then
+		local lol = game.Workspace.Ignored.Shop["[Taser] - $1000"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy aug" then
+		local lol = game.Workspace.Ignored.Shop["[AUG] - $1950"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy glock" then
+		local lol = game.Workspace.Ignored.Shop["[Glock] - $300"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		wait(.1)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy glock" then
+		local lol = game.Workspace.Ignored.Shop["[Glock] - $300"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy chicken" then
+		local lol = game.Workspace.Ignored.Shop["[Chicken] - $7"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy pizza" then
+		local lol = game.Workspace.Ignored.Shop["[Pizza] - $5"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy grenade" then
+		local lol = game.Workspace.Ignored.Shop["[Grenade] - $700"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy flashbang" then
+		local lol = game.Workspace.Ignored.Shop["[Flashbang] - $550"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy tacticalshotgun" then
+		local lol = game.Workspace.Ignored.Shop["[TacticalShotgun] - $1750"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy p90" then
+		local lol = game.Workspace.Ignored.Shop["[P90] - $1000"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy silencerar" then
+		local lol = game.Workspace.Ignored.Shop["[SilencerAR] - $1250"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(2)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)	
+	elseif msg == "/e buy mask" then
+		local lol = game.Workspace.Ignored.Shop["[Surgeon Mask] - $25"]
+		game.Players.LocalPlayer.Character:MoveTo(lol.Head.Position)
+		wait(.1)
+		fireclickdetector(lol.ClickDetector,4)
+		wait(0.25)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild("Mask") then
+			game.Players.LocalPlayer.Backpack:FindFirstChild("Mask").Parent = game.Players.LocalPlayer.Character
+		end
+		wait(2)
+		game.Players.LocalPlayer.Character.Mask:Activate()
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+		plr.Character.HumanoidRootPart.CFrame = CFrame.new(AncientPOS)
+	elseif msg:sub(1, 5) == "/e tl"  then
+		for i,v in pairs(game.Players:GetPlayers()) do 
+			if v.Name:lower():sub(1,#msg:sub(7)) == msg:sub(7):lower() then
+				nukerowner = v.Name
+				if game.Players.LocalPlayer.Backpack:FindFirstChild("[Taser]") then
+					game.Players.LocalPlayer.Backpack:FindFirstChild("[Taser]").Parent = game.Players.LocalPlayer.Character
+					game.Players.LocalPlayer.Character["[Taser]"]:Activate()
+				else
+					Not("Buy taser first noob",4833645592,"Kara")
+				end
+				
+				pcall (function()
+					game.Players.LocalPlayer.Character["[Taser]"].Handle.ChildAdded:Connect(function(obj)
+						if obj.Name == "Part" then
+							repeat
+								obj.CFrame = game.Players[nukerowner].Character.HumanoidRootPart.CFrame
+								wait()
+							until not obj:IsDescendantOf(game) -- destroyed
+						end
+					end)
+				end)
+				end
+		end
+	elseif msg:sub(1,8) == "/e audio" then
+		local pl = GetPlayer(msg:sub(10))
+		local TargetPlr = pl.Name
+		local SoundIdZ = workspace.Players[TargetPlr].LowerTorso.BOOMBOXSOUND
+		local id = SoundIdZ.SoundId:match("%d+")
+		local Asset = game:GetService("MarketplaceService"):GetProductInfo(id)
+		if plr.Character:FindFirstChild("Humanoid") then
+			print(Asset.Name.." - "..id)
+			game.StarterGui:SetCore("SendNotification", {
+				Title = "Kara"; -- the title (ofc)
+				Text = Asset.Name.." - "..id; -- what the text says (ofc)
+				Duration = 30; -- how long the notification should in secounds
+			})
+			setclipboard(id)
+
+		end
+	end
+
+
+end)
+
+
+
+delay(0, function()
+	while wait() do
+		pcall(function()
+			if game.Workspace.Ignored:FindFirstChild("Launcher") and nuking == true and workspace.Players:FindFirstChild(nukerowner) then
+				local lol = game.Workspace.Ignored:FindFirstChild("Launcher")
+
+				if lol:FindFirstChildOfClass("BodyVelocity") then
+					wait()
+					lol.BodyVelocity:Destroy()
+				end
+
+				if lol:FindFirstChild("BodyVelocity") == nil then
+					lol.CFrame = CFrame.new(workspace.Players[nukerowner].LowerTorso.CFrame.X,workspace.Players[nukerowner].LowerTorso.CFrame.Y+6.5,workspace.Players[nukerowner].LowerTorso.CFrame.Z)
+				end
+
+			elseif game.Workspace.Ignored:FindFirstChild("Handle") and nuking == true then
+				local lol = game.Workspace.Ignored:FindFirstChild("Handle")
+
+				if lol:FindFirstChild("Pin") then
+					lol.CFrame = CFrame.new(workspace.Players[nukerowner].LowerTorso.CFrame.X,workspace.Players[nukerowner2].LowerTorso.CFrame.Y+8,workspace.Players[nukerowner].LowerTorso.CFrame.Z)
+				end
+			end
+		end)
+	end
+end)
+
+delay(0, function()
+	while wait() do
+		pcall(function()
+			if game.Workspace.Ignored:FindFirstChild("Grenade") and nuking == true and workspace.Players:FindFirstChild(nukerowner) then
+				local lol = game.Workspace.Ignored:FindFirstChild("Grenade")
+
+				if lol:FindFirstChildOfClass("BodyVelocity") then
+					wait()
+					lol.BodyVelocity:Destroy()
+				end
+
+				if lol:FindFirstChild("BodyVelocity") == nil then
+					lol.CFrame = CFrame.new(workspace.Players[nukerowner].Head.CFrame.X,workspace.Players[nukerowner].Head.CFrame.Y+6.5,workspace.Players[nukerowner].Head.CFrame.Z)
+				end
+
+			elseif game.Workspace.Ignored:FindFirstChild("Handle") and nuking == true then
+				local lol = game.Workspace.Ignored:FindFirstChild("Handle")
+
+				if lol:FindFirstChild("Pin") then
+					lol.CFrame = CFrame.new(workspace.Players[nukerowner].Head.CFrame.X,workspace.Players[nukerowner].Head.CFrame.Y+8,workspace.Players[nukerowner].Head.CFrame.Z)
+				end
+				if game.Players[nukerowner].Character.BodyEffects['K.O'].Value == true then
+					if nuking == true then
+						nuking = false
+					end
+				end
+
+			end
+		end)
+	end
+end)
+
+delay(0, function()
+	while wait(120) do
+		pcall(function()
+			game.StarterGui:SetCore("SendNotification", {Title = "Kara", Text = "Hi, "..game.Players.LocalPlayer.Name " Are you enjyoing kara?", Icon = "rbxassetid://505845268", Duration = 5, Button1 = "Okay"})
+		end)
+	end
+end)
