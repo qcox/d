@@ -1,6 +1,3 @@
-if game.CoreGui:FindFirstChild("ScreenGui") then
-	game.CoreGui:FindFirstChild("ScreenGui"):Destroy()
-end;
 local a = loadstring(game:HttpGet("https://pastebin.com/raw/3hT5ihgT", true))()
 local b = a:CreateWindow('Main')
 b:Section('Auto farm')
